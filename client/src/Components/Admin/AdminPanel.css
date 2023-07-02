@@ -1,0 +1,14 @@
+.Admin_panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* height: 100vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none; */
+}
+
+.App::-webkit-scrollbar {
+  display: none;
+}

@@ -5,7 +5,7 @@ import Home from "./Components/Home/Home";
 import UserLogin from "./Components/User/UserLogInAndSignIn/UserLogin";
 import UserSignIn from "./Components/User/UserLogInAndSignIn/UserSignIn";
 import AdminPanel from "./Components/Admin/AdminPanel";
-
+import AdminLogin from './Components/Admin/AdminLogin/AdminLogin'
 function App() {
   return (
     <div className="App">
@@ -15,6 +15,7 @@ function App() {
           <Route exact path="/user_login" element={<UserLogin />} />
           <Route exact path="/user_signin" element={<UserSignIn />} />
           <Route exact path="/admin_panel" element={<AdminPanel />} />
+          <Route exact path="/admin_login" element={<AdminLogin />} />
         </Routes>
       </Router>
     </div>
