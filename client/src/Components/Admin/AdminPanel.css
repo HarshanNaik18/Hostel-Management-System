@@ -3,12 +3,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* height: 100vh;
+  height: 100vh;
   overflow-y: scroll;
   -ms-overflow-style: none;
-  scrollbar-width: none; */
+  scrollbar-width: none;
 }
 
-.App::-webkit-scrollbar {
+.Admin_panel::-webkit-scrollbar {
   display: none;
+}
+
+.admin_panel_container{
+    display: flex;
+    width: 100%;
+    flex-direction: row; 
+}
+
+.admin_panel_component_holder{
+    border: 1px solid red;
+    transition: 1s ease;
 }
