@@ -4,7 +4,15 @@
     justify-content:flex-start;
     background: #1565c0;
     transition: 1s ease;
-}
+    max-height: calc(100vh - 50px);
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .Sidebar::-webkit-scrollbar {
+    display: none;
+  }
 
 .Sidebar_toggle{
     text-align: end;
@@ -37,6 +45,7 @@
     display: flex;
     padding: 1rem 0 ;
     width: 100%;
+    text-decoration: none;
 }
 
 .sidebar_components:hover{

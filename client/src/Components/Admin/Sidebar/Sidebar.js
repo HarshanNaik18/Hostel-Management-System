@@ -1,72 +1,76 @@
-import React from 'react'
-import './Sidebar.css'
-function Sidebar({open, onClose}) {
+import React from "react";
+import "./Sidebar.css";
+import { NavLink } from "react-router-dom";
+
+function Sidebar({ open, onClose }) {
   return (
-    <div className='Sidebar' style={{width:`${!open ? '250px' : '3.5rem'}`}} >
-      <div className='Sidebar_toggle' >
-        {
-          !open?<i className="fa-solid fa-xmark" onClick={onClose} />:<i className="fa-solid fa-bars" onClick={onClose} ></i>
-        }
-      
+    <div className="Sidebar" style={{ width: `${!open ? "250px" : "3.5rem"}` }}>
+      <div className="Sidebar_toggle">
+        {!open ? (
+          <i className="fa-solid fa-xmark" onClick={onClose} />
+        ) : (
+          <i className="fa-solid fa-bars" onClick={onClose}></i>
+        )}
       </div>
-      <div className='sidebar_components_container'>
-        <div className='sidebar_components' >
-          <label onClick={onClose}  >
-          <i className="fa-solid fa-gauge" style={{padding:'0 1rem', fontSize:'1.5rem'}} ></i>
-          {
-            !open?<span>Dashboard</span>:''
-          }
-          
+
+      <div className="sidebar_components_container">
+        <NavLink to="/admin/dashboard" className="sidebar_components">
+          <label onClick={onClose}>
+            <i
+              className="fa fa-tachometer"
+              style={{ padding: "0 1rem", fontSize: "1.5rem" }}
+            ></i>
+            {!open ? <span>Dashboard</span> : ""}
           </label>
-        </div>
-        <div className='sidebar_components' >
-          <label onClick={onClose}  >
-          <i className="fa-solid fa-gauge" style={{padding:'0 1rem', fontSize:'1.5rem'}} ></i>
-          {
-            !open?<span>Dashboard</span>:''
-          }
-          
+        </NavLink>
+        <NavLink to="/admin/dashboard" className="sidebar_components">
+          <label onClick={onClose}>
+            <i
+              className="fa-solid fa-building-user"
+              style={{ padding: "0 1rem", fontSize: "1.5rem" }}
+            ></i>
+            {!open ? <span>Rooms</span> : ""}
           </label>
-        </div>
-        <div className='sidebar_components' >
-          <label onClick={onClose}  >
-          <i className="fa-solid fa-gauge" style={{padding:'0 1rem', fontSize:'1.5rem'}} ></i>
-          {
-            !open?<span>Dashboard</span>:''
-          }
-          
+        </NavLink>
+        <NavLink to="/admin/dashboard" className="sidebar_components">
+          <label onClick={onClose}>
+            <i
+              className="fa-solid fa-users"
+              style={{ padding: "0 1rem", fontSize: "1.5rem" }}
+            ></i>
+            {!open ? <span>Tenants</span> : ""}
           </label>
-        </div>
-        <div className='sidebar_components' >
-          <label onClick={onClose}  >
-          <i className="fa-solid fa-gauge" style={{padding:'0 1rem', fontSize:'1.5rem'}} ></i>
-          {
-            !open?<span>Dashboard</span>:''
-          }
-          
+        </NavLink>
+        <NavLink to="/admin/dashboard" className="sidebar_components">
+          <label onClick={onClose}>
+            <i
+              className="fa-solid fa-tasks"
+              style={{ padding: "0 1rem", fontSize: "1.5rem" }}
+            ></i>
+            {!open ? <span>Management</span> : ""}
           </label>
-        </div>
-        <div className='sidebar_components' >
-          <label onClick={onClose}  >
-          <i className="fa-solid fa-gauge" style={{padding:'0 1rem', fontSize:'1.5rem'}} ></i>
-          {
-            !open?<span>Dashboard</span>:''
-          }
-          
+        </NavLink>
+        <NavLink to="/admin/dashboard" className="sidebar_components">
+          <label onClick={onClose}>
+            <i
+              className="fa-solid fa-book-open"
+              style={{ padding: "0 1rem", fontSize: "1.5rem" }}
+            ></i>
+            {!open ? <span>Food</span> : ""}
           </label>
-        </div>
-        <div className='sidebar_components' >
-          <label onClick={onClose}  >
-          <i className="fa-solid fa-gauge" style={{padding:'0 1rem', fontSize:'1.5rem'}} ></i>
-          {
-            !open?<span>Dashboard</span>:''
-          }
-          
+        </NavLink>
+        <NavLink to="/admin/dashboard" className="sidebar_components">
+          <label onClick={onClose}>
+            <i
+              className="fa-solid fa-envelopes-bulk"
+              style={{ padding: "0 1rem", fontSize: "1.5rem" }}
+            ></i>
+            {!open ? <span>Enquiries</span> : ""}
           </label>
-        </div>
+        </NavLink>
       </div>
     </div>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;

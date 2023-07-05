@@ -14,6 +14,13 @@
     mix-blend-mode: multiply;
 }
 
+.Admin_Navbar img:hover{
+    transform: scale(1.1);
+    cursor: pointer;
+    transition:0.5s ease-in;
+
+}
+
 .Admin_Navbar label{
     display: flex;
     color: rgb(55, 49, 49);
@@ -33,7 +40,7 @@
     transition: 0.5s ease;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 450px) {
     .Admin_Navbar{
         width:calc(100% - 2rem);
         display: flex;

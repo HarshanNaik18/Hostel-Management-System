@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Components/Home/Home";
 import UserLogin from "./Components/User/UserLogInAndSignIn/UserLogin";
 import UserSignIn from "./Components/User/UserLogInAndSignIn/UserSignIn";
-import AdminPanel from "./Components/Admin/AdminPanel";
 import AdminLogin from './Components/Admin/AdminLogin/AdminLogin'
+import Dashboard from "./Components/Admin/Dashboard/Dashboard";
 function App() {
   return (
     <div className="App">
@@ -14,8 +14,9 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/user_login" element={<UserLogin />} />
           <Route exact path="/user_signin" element={<UserSignIn />} />
-          <Route exact path="/admin_panel" element={<AdminPanel />} />
-          <Route exact path="/admin_login" element={<AdminLogin />} />
+          <Route exact path="/admin/dashboard" element={<Dashboard />} />
+          <Route exact path="/admin" element={<Dashboard />} />
+          <Route exact path="/admin/login" element={<AdminLogin />} />
         </Routes>
       </Router>
     </div>
