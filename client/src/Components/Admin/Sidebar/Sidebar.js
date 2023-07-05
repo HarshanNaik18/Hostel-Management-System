@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 function Sidebar({ open, onClose }) {
   return (
-    <div className="Sidebar" style={{ width: `${!open ? "250px" : "3.5rem"}` }}>
+    <div className="Sidebar" style={{ width: `${!open ? "230px" : "3.5rem"}` }}>
       <div className="Sidebar_toggle">
         {!open ? (
           <i className="fa-solid fa-xmark" onClick={onClose} />
