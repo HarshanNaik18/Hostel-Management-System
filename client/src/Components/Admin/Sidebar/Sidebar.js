@@ -23,7 +23,7 @@ function Sidebar({ open, onClose }) {
             {!open ? <span>Dashboard</span> : ""}
           </label>
         </NavLink>
-        <NavLink to="/admin/dashboard" className="sidebar_components">
+        <NavLink to="/admin/rooms_allotment" className="sidebar_components">
           <label onClick={onClose}>
             <i
               className="fa-solid fa-building-user"
@@ -32,7 +32,7 @@ function Sidebar({ open, onClose }) {
             {!open ? <span>Rooms</span> : ""}
           </label>
         </NavLink>
-        <NavLink to="/admin/dashboard" className="sidebar_components">
+        <NavLink to="/admin/tenants" className="sidebar_components">
           <label onClick={onClose}>
             <i
               className="fa-solid fa-users"

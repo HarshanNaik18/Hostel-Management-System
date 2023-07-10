@@ -4,7 +4,7 @@
     justify-content:flex-start;
     background: #1565c0;
     transition: 1s ease;
-    max-height: calc(100vh - 50px);
+    height: calc(100vh - 51px);
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;

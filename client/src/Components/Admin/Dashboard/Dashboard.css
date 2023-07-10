@@ -33,7 +33,7 @@
   background: #d12f7022;
   font-size: 1.3rem;
   font-weight: bold;
-  height: 50px;
+  height: 47px;
   align-items: center;
   text-align: left;
 }
@@ -79,9 +79,9 @@
   .Admin_panel_header{
     padding: 0.5rem 1rem;
     background: #d12f7022;
-    font-size: 1.55rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    height: 40px;
+    height: 30px;
     text-align: left;
   }
 }
