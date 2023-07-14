@@ -1,88 +1,222 @@
-.Tanants_table_Select_header{
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    background: #bde6ff5d;
+.Tanants_table_Select_header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  background: #bde6ff5d;
+}
+.Tanants_table_Select_header_changer {
+  width: 33.33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Table_Selectot {
+  padding: 0.5rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
-.Table_Selectot{
-    padding: 0.5rem 0.5rem;
-    font-size: 1rem;
-    font-weight: 600;
+.Tenants_component_holder {
+  min-width: 300px;
+  width: 100%;
 }
 
-.Tenants_component_holder{
-    min-width: 300px;
-    width: 100%;
+.Tenants_Table_Container {
+  padding: 5px;
+  width: calc(100% - 10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.Tenants_Table_Container{
+.Tenants_Search {
+  display: flex;
+  justify-content: left;
+}
+
+.Tenants_Search span {
+  border: 2px solid grey;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 0 4px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.Tenants_Search span input {
+  outline: none;
+  border: none;
+}
+.Tenants_Search span i {
+  color: grey;
+}
+.Tenants_Search span i:hover {
+  color: red;
+}
+
+.Tenants_Search_Table {
+  width: 100%;
+  margin: 5px 0;
+}
+
+.Tenants_Search_Table table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  border-bottom: 2px solid #009879;
+  transition: 1s ease-out;
+}
+.Tenants_Search_Table table thead {
+  width: 100%;
+}
+
+.Tenants_Search_Table table tbody {
+  width: 100%;
+  height: 75vh;
+  max-height: 75vh;
+  overflow-y: scroll;
+}
+
+.Tenants_Search_Table table thead tr {
+  width: 100%;
+  background-color: #009879;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  
+}
+
+.Tenants_Search_Table table tbody tr {
+  width: 100%;
+  border-bottom: 1px solid #dddddd;
+}
+
+.Tenants_Search_Table table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.Tenants_Search_Table table tbody tr:nth-of-type(odd) td {
+  border-right: 2px solid #f3f3f3;
+}
+
+.Tenants_Search_Table table tbody tr:nth-of-type(even) td{
+  border-right: 2px solid #fff;
+}
+
+.Tenants_Search_Table table thead tr td {
+  padding-left: 5px;
+  padding-right: 2px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-left: 2px solid #f3f3f331;
+}
+.Tenants_Search_Table table tbody tr td {
+  padding-left: 5px;
+  padding-right: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.Tenants_Search_Table table tbody tr:hover {
+  padding-left: 5px;
+  padding-right: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  cursor: pointer;
+  color: #009879;
+}
+
+#Table_SL {
+  width: 5%;
+}
+
+#Table_User_Name {
+  width: 15%;
+}
+
+#Table_Email {
+  width: 20%;
+}
+
+#Table_Phone {
+  width: 10%;
+}
+
+#Table_Room_No {
+  width: 5%;
+}
+
+#Table_Address {
+  width: 20%;
+}
+
+#Table_Action {
+  width: 15%;
+}
+
+#Table_Join_Date {
+  width: 10%;
+}
+
+
+@media (max-width: 450px) {
+  .Table_Selectot {
+    min-width: 70px;
+  }
+  .Tenants_Table_Container {
     padding: 5px;
     width: calc(100% - 10px);
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+  }
 
-.Tenants_Search{
+  .Tanants_table_Select_header_changer {
+    width: 33.33%;
     display: flex;
-    justify-content: left;
-}
-
-.Tenants_Search span{
-    border: 2px solid grey;
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 0 4px;
-    height: 20px;
-    display:flex;
-    flex-direction: row;
     align-items: center;
-}
-
-.Tenants_Search span input{
+    justify-content: center;
+    min-width: 100px;
+  }
+  .Tenants_Search span input {
     outline: none;
-    border:none;
-}
-
-.Tenants_Search span i:hover{
-    color: red;
-}
-
-.Tenants_Search_Table{
+    border: none;
+    width: 150px;
+  }
+  .Tenants_Search_Table {
+    overflow-x: auto;
+    max-width: 100%;
     width: 100%;
-    border:1px solid black;
-    margin: 5px 0;
-}
+  }
+  .Tenants_Search_Table table {
+    border-collapse: collapse;
+    width: 600px;
+  }
+  .Tenants_Search_Table table thead {
+    width: 100%;
+  }
 
-@media (max-width: 450px) {
-    .Table_Selectot{
-        min-width: 70px;
-    }
-    .Tenants_Table_Container{
-        padding: 5px;
-        width: calc(100% - 10px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-    .Tenants_Search span input{
-        outline: none;
-        border:none;
-        width: 150px;
-    }
-    .Tenants_Search_Table{
-        overflow-x: auto;
-        max-width: 100%;
-        width: 100%;
-    }
-    .Tenants_Search_Table table{
-        border-collapse: collapse;
-    }
-    #tr td{
-        width: 150px;
-        padding:20px;
-        border: 1px solid red;
-    }
-    
+  .Tenants_Search_Table table tbody {
+    width: 100%;
+  }
+
+  .Tenants_Search_Table table thead tr {
+    width: 100%;
+  }
+
+  .Tenants_Search_Table table tbody tr {
+    width: 100%;
+  }
+
+  #Table_SL {
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: 40px;
+  }
 }

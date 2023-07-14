@@ -20,14 +20,13 @@
   max-height: calc(100vh - 50px);
   overflow-y: scroll;
   -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 .admin_panel_component_holder::-webkit-scrollbar {
   display: none;
 }
 
-.Admin_panel_header{
+.Admin_panel_header label{
   display: flex;
   padding-left: 1rem;
   background: #d12f7022;
@@ -76,7 +75,7 @@
       height: 150px;
       min-width: 150px;
   }
-  .Admin_panel_header{
+  .Admin_panel_header label{
     padding: 0.5rem 1rem;
     background: #d12f7022;
     font-size: 1.3rem;

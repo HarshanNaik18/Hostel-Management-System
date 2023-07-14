@@ -4,36 +4,53 @@ import Sidebar from "../Sidebar/Sidebar";
 import "./Tanants.css";
 
 function ActiveTenants() {
+  const a =[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+
   return (
     <div className="Tenants_Table_Container">
       <div className="Tenants_Search">
         <span>
-          <input type="text" />
+          <input type="text" placeholder="Search here...!!" />
           <i className="fa-solid fa-xmark" />
         </span>
       </div>
       <div className="Tenants_Search_Table">
         <table>
-          <thead>
-            <tr id="tr">
-              <td>S No</td>
-              <td>Name</td>
-              <td>Contact</td>
-              <td>Sem</td>
-              <td>Branch</td>
-              <td>Room</td>
-              <td>Action</td>
+          <thead >
+            <tr>
+              <td id="Table_SL" >S.No</td>
+              <td id="Table_User_Name">Name</td>
+              <td id="Table_Email" >Email</td>
+              <td id="Table_Phone">Phone</td>
+              <td id="Table_Room_No">Room</td>
+              <td id="Table_Address" >Address</td>
+              <td id="Table_Join_Date" >Joined Date</td>
+              <td id="Table_Action" >Action</td>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody className="Tenants_table_body" >
+          {
+              a && a.map((item,index)=>(
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>Harshan Naik</td>
+                  <td>harshannaik18@gmail.com</td>
+                  <td>7676643480</td>
+                  <td>212</td>
+                  <td>Siddapur, Uttara Kannada, Karnataka India - 581 355</td>
+                  <td>06-JAN-2022</td>
+                  <td></td>
+                </tr>
+              ))
+            }
+          </tbody>
         </table>
       </div>
-      Active
     </div>
   );
 }
 
-function LeftoutTenants() {
+function VacatedTenants() {
   return <div>Leftout</div>;
 }
 
@@ -46,7 +63,7 @@ function Tenants() {
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
   const [loadComponent, setLoadComponent] = useState(0);
 
-  const components = [<ActiveTenants />, <LeftoutTenants />, <AllTenants />];
+  const components = [<ActiveTenants />, <VacatedTenants />, <AllTenants />];
 
   useEffect(() => {
     const unSubscribe = () => {
@@ -68,9 +85,10 @@ function Tenants() {
             width: `${!button ? "calc(100% - 230px)" : "calc(100% - 3.5rem)"}`,
           }}
         >
-          <div className="Admin_panel_header">Tenants List</div>
+          <div className="Admin_panel_header"> <label> Tenants List</label></div>
           <div className="Admin_panel_cards_container">
             <div className="Tanants_table_Select_header">
+              <div className="Tanants_table_Select_header_changer" >
               <label
                 className="Table_Selectot"
                 style={{
@@ -82,6 +100,8 @@ function Tenants() {
               >
                 {displayWidth > 450 ? "Active Tenants" : "Active"}
               </label>
+              </div >
+              <div className="Tanants_table_Select_header_changer" >
               <label
                 className="Table_Selectot"
                 style={{
@@ -91,8 +111,10 @@ function Tenants() {
                 }}
                 onClick={() => setLoadComponent(1)}
               >
-                {displayWidth > 450 ? "Leftout Tenants" : "Leftout"}
+                {displayWidth > 450 ? "Vacated Tenants" : "Vacated"}
               </label>
+              </div>
+              <div className="Tanants_table_Select_header_changer" >
               <label
                 className="Table_Selectot"
                 style={{
@@ -104,6 +126,7 @@ function Tenants() {
               >
                 {displayWidth > 450 ? "All Tenants" : "All"}
               </label>
+              </div>
             </div>
             <div className="Tenants_component_holder">
               {components[loadComponent]}
