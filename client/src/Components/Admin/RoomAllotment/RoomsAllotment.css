@@ -1,0 +1,213 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.Room_Allotment_wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 7px;
+  width: calc(100% - 14px);
+}
+
+.Room_allotment_header {
+  width: 100;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Room_Add_Button {
+  width: 75px;
+  height: 22px;
+  border: 1px solid orange;
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+  color: black;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.Room_Add_Button i {
+  border: 1px solid black;
+  border-radius: 50%;
+  height: 13px;
+  width: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Room_Add_Button:hover {
+  cursor: pointer;
+  opacity: 1;
+  background: #f1c27b;
+}
+
+.Room_Allotment_Container {
+  width: 100%;
+  margin-top: 5px;
+  max-height: calc(100vh - 152px);
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
+  padding: 5px 0;
+  gap: 15px;
+}
+
+.Room_Allotment_Container::-webkit-scrollbar {
+  display: none;
+}
+
+.Room_Card {
+  min-width: 350px;
+  min-height: 200px;
+  border: 1px solid lightgrey;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.Room_Card:hover{
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.25);
+}
+
+.Room_Card_Header {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid whitesmoke;
+  padding-bottom: 5px;
+}
+
+.Room_Card_Header > label {
+  height: 50px;
+  width: 75px;
+  /* border: 0.1px solid red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  font-family: "PT Sans", sans-serif;
+}
+
+.Room_Card_Info {
+  width: 275px;
+  display: flex;
+  justify-content: space-evenly;
+  /* border: 0.1px solid blue; */
+  height: 50px;
+  align-items: center;
+}
+
+.Room_Card_Info_value {
+  width: max-content;
+  flex-direction: column;
+  display: flex;
+  justify-content: left;
+  gap: 5px;
+}
+
+.Room_Card_Info_value > label {
+  font-size: 10px;
+  font-weight: 600;
+  display: flex;
+  color: rgb(68, 55, 55);
+  justify-content: left;
+  text-align: left;
+}
+
+.Room_Card_Info_value > span {
+  font-size: 15px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.Room_Card_Body {
+  width: calc(100% -10px);
+  margin-top: 10px;
+  padding: 5px;
+  height: 100px;
+  /* border: 1px solid green; */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.Room_Card_Body > label {
+  font-size: 0.6rem;
+  font-weight: 600;
+}
+
+.Room_Card_Body > table {
+  text-align: left;
+  border-collapse: collapse;
+}
+
+.Room_Card_Body > table > thead,
+.Room_Card_Body > table > tbody,
+.Room_Card_Body > table > tbody > tr {
+  width: 100%;
+}
+
+.Room_Card_Body > table > tbody > tr:hover{
+  cursor: pointer;
+  color: #009879;
+}
+
+.Room_Card_Body > table > thead > tr{
+  background: rgba(128, 128, 128, 0.103);
+}
+
+.Room_Card_Body > table > thead > tr > td{
+  font-size: 0.8rem;
+  height: 15px;
+  font-weight: 700;
+}
+
+.Room_Card_Body > table > tbody > tr > td{
+  padding-left: 3px;
+  font-size: 0.7rem;
+  height: 15px;
+  font-weight: 500;
+}
+
+.Room_Card_Footer{
+  /* border: 1px solid yellow; */
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.Room_Card_Footer > button {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'PT Sans', sans-serif;
+  padding: 5px 10px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: transform 100ms ease-in;
+  /* opacity: 0.9; */
+}
+
+.Room_Card_Footer > button:hover{
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);  transform: scale(1.05);
+}

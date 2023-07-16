@@ -34,7 +34,7 @@
   justify-content: left;
 }
 
-.Tenants_Search span {
+.Tenants_Search > span {
   border: 2px solid grey;
   border-radius: 5px;
   overflow: hidden;
@@ -45,45 +45,46 @@
   align-items: center;
 }
 
-.Tenants_Search span input {
+.Tenants_Search > span > input {
   outline: none;
   border: none;
 }
-.Tenants_Search span i {
+.Tenants_Search > span > i {
   color: grey;
 }
-.Tenants_Search span i:hover {
+.Tenants_Search > span > i:hover {
   color: red;
 }
 
 .Tenants_Search_Table {
   width: 100%;
   margin: 5px 0;
+  box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
 }
 
-.Tenants_Search_Table table {
+.Tenants_Search_Table > table {
   border-collapse: collapse;
   width: 100%;
   font-size: 0.9em;
   font-family: sans-serif;
   min-width: 400px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
   text-align: left;
   border-bottom: 2px solid #009879;
   transition: 1s ease-out;
 }
-.Tenants_Search_Table table thead {
+.Tenants_Search_Table > table >  thead {
   width: 100%;
 }
 
-.Tenants_Search_Table table tbody {
+.Tenants_Search_Table > table > tbody {
   width: 100%;
   height: 65vh;
   max-height: 75vh;
   overflow-y: scroll;
 }
 
-.Tenants_Search_Table table thead tr {
+.Tenants_Search_Table > table > thead > tr {
   width: 100%;
   background-color: #009879;
   color: #ffffff;
@@ -92,24 +93,24 @@
   
 }
 
-.Tenants_Search_Table table tbody tr {
+.Tenants_Search_Table > table > tbody > tr {
   width: 100%;
   border-bottom: 1px solid #dddddd;
 }
 
-.Tenants_Search_Table table tbody tr:nth-of-type(even) {
+.Tenants_Search_Table > table > tbody > tr:nth-of-type(even) {
   background-color: #f3f3f3;
 }
 
-.Tenants_Search_Table table tbody tr:nth-of-type(odd) td {
+.Tenants_Search_Table > table > tbody > tr:nth-of-type(odd) > td {
   border-right: 2px solid #f3f3f3;
 }
 
-.Tenants_Search_Table table tbody tr:nth-of-type(even) td{
+.Tenants_Search_Table > table > tbody > tr:nth-of-type(even) > td{
   border-right: 2px solid #fff;
 }
 
-.Tenants_Search_Table table thead tr td {
+.Tenants_Search_Table > table > thead > tr > td {
   padding-left: 5px;
   padding-right: 2px;
   padding-top: 5px;
@@ -117,7 +118,7 @@
   border-left: 2px solid #f3f3f331;
   height: 2rem;
 }
-.Tenants_Search_Table table tbody tr td {
+.Tenants_Search_Table > table > tbody > tr > td {
   padding-left: 5px;
   padding-right: 2px;
   padding-top: 2px;
@@ -125,7 +126,7 @@
   height: 2.5rem;
 }
 
-.Tenants_Search_Table table tbody tr:hover {
+.Tenants_Search_Table > table > tbody > tr:hover {
   padding-left: 5px;
   padding-right: 2px;
   padding-top: 2px;
@@ -274,7 +275,7 @@
     justify-content: center;
     min-width: 100px;
   }
-  .Tenants_Search span input {
+  .Tenants_Search > span > input {
     outline: none;
     border: none;
     width: 150px;
@@ -284,23 +285,23 @@
     max-width: 100%;
     width: 100%;
   }
-  .Tenants_Search_Table table {
+  .Tenants_Search_Table > table {
     border-collapse: collapse;
     width: 600px;
   }
-  .Tenants_Search_Table table thead {
+  .Tenants_Search_Table > table > thead {
     width: 100%;
   }
 
-  .Tenants_Search_Table table tbody {
+  .Tenants_Search_Table > table > tbody {
     width: 100%;
   }
 
-  .Tenants_Search_Table table thead tr {
+  .Tenants_Search_Table > table > thead > tr {
     width: 100%;
   }
 
-  .Tenants_Search_Table table tbody tr {
+  .Tenants_Search_Table > table > tbody > tr {
     width: 100%;
   }
 

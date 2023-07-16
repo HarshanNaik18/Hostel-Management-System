@@ -10,19 +10,19 @@
     border-bottom: 1px solid white;
 }
 
-.Admin_Navbar img{
+.Admin_Navbar > img{
     height: 50px;
     mix-blend-mode: multiply;
 }
 
-.Admin_Navbar img:hover{
+.Admin_Navbar > img:hover{
     transform: scale(1.1);
     cursor: pointer;
     transition:0.5s ease-in;
 
 }
 
-.Admin_Navbar label{
+.Admin_Navbar > label{
     display: flex;
     color: rgb(55, 49, 49);
     align-items: center;
@@ -35,7 +35,7 @@
     font-family: 'PT Sans', sans-serif;
 }
 
-.Admin_Navbar label:hover{
+.Admin_Navbar > label:hover{
     background: rgb(55, 49, 49);
     color: orange;
     transition: 0.5s ease;

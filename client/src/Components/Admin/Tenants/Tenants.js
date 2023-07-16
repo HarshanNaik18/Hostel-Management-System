@@ -144,7 +144,7 @@ function AllTenants() {
                   <td>7676643480</td>
                   <td>Siddapur, Uttara Kannada, Karnataka India - 581 355</td>
                   <td>06-JAN-2022</td>
-                  <td>06-JAN-2022</td>
+                  <td> {index%2===0?"26-JUL-2023":"--"} </td>
                   <td id="Action_Buttons">
                     <button id="Vc_Table_View_Button">View</button>
                   </td>
@@ -185,7 +185,6 @@ function Tenants() {
           }}
         >
           <div className="Admin_panel_header">
-            {" "}
             <label> Tenants List</label>
           </div>
           <div className="Admin_panel_cards_container">

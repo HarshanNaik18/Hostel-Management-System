@@ -8,6 +8,7 @@ import AdminLogin from './Components/Admin/AdminLogin/AdminLogin'
 import Dashboard from "./Components/Admin/Dashboard/Dashboard";
 import Tenants from "./Components/Admin/Tenants/Tenants";
 import RoomsAllotment from "./Components/Admin/RoomAllotment/RoomsAllotment";
+import RoomUpdate from "./Components/Admin/RoomUpdate/RoomUpdate";
 // import { UserAuthContext } from "./ContextAPI/UsersAuthContext";
 function App() {
   // const {currentUser} = useContext(UserAuthContext);
@@ -22,6 +23,7 @@ function App() {
           <Route exact path="/admin/dashboard" element={<Dashboard />} />
           <Route exact path="/admin/tenants" element={<Tenants />} />
           <Route exact path="/admin/rooms_allotment" element={<RoomsAllotment />} />
+          <Route exact path="/admin/rooms_allotment/update" element={<RoomUpdate />} />
           <Route exact path="/admin/login" element={<AdminLogin />} />
         </Routes>
       </Router>

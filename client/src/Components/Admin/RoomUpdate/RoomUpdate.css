@@ -1,0 +1,47 @@
+.Room_Update_wrapper{
+    width: 100%;
+    height: calc(100vh - 100px);
+    display: flex;
+    justify-content: center;
+}
+
+.Room_Update_Form{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
+    padding: 10px;
+    gap: 15px;
+}
+
+.Room_Update_Form_Header{
+    display:flex;
+    flex-direction: column;
+}
+
+.Room_Update_Form_Header > label {
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.Room_Update_Form_Header > span{
+    font-size: 1.8rem;
+    font-weight: 900;
+    font-family: sans-serif;
+}
+
+.Room_Update_Form_Table{
+    width: calc(100% -20px);
+    padding: 10px;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+.Room_Update_Form_Table > tbody > tr > td{
+    border: 1px solid red;
+    width:190px;
+    padding-left: 10px;
+    text-align: left;
+    height:25px;
+}

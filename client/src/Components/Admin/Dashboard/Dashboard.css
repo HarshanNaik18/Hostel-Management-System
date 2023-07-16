@@ -26,7 +26,7 @@
   display: none;
 }
 
-.Admin_panel_header label{
+.Admin_panel_header > label{
   display: flex;
   padding-left: 1rem;
   background: #d12f7022;
@@ -35,6 +35,7 @@
   height: 47px;
   align-items: center;
   text-align: left;
+  min-width: 300px;
 }
 
 :root {
@@ -57,7 +58,7 @@
 }
 
 
-.box label {
+.box > label {
   color: var(--grayishBlue);
   font-size: 3rem;
   font-weight: bolder;
