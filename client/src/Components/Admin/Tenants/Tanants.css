@@ -78,7 +78,7 @@
 
 .Tenants_Search_Table table tbody {
   width: 100%;
-  height: 75vh;
+  height: 65vh;
   max-height: 75vh;
   overflow-y: scroll;
 }
@@ -115,12 +115,14 @@
   padding-top: 5px;
   padding-bottom: 5px;
   border-left: 2px solid #f3f3f331;
+  height: 2rem;
 }
 .Tenants_Search_Table table tbody tr td {
   padding-left: 5px;
   padding-right: 2px;
   padding-top: 2px;
   padding-bottom: 2px;
+  height: 2.5rem;
 }
 
 .Tenants_Search_Table table tbody tr:hover {
@@ -164,6 +166,94 @@
   width: 10%;
 }
 
+#Action_Buttons{
+  display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+}
+
+#Table_View_Button{
+  height: 1.5rem;
+  width: 35%;
+  outline: none;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: none;
+  background-color: rgb(0, 82, 204);
+  color: white; 
+  border-radius:2px;
+}
+
+#Table_View_Button:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+#Table_Vacate_Button{
+  height: 1.5rem;
+  width: 45%;
+  outline: none;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: none;
+  background-color: rgb(204, 51, 0);
+  color: white;
+  border-radius:2px;
+}
+
+#Table_Vacate_Button:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+#Vc_Table_SL {
+  width: 5%;
+}
+
+#Vc_Table_User_Name {
+  width: 15%;
+}
+
+#Vc_Table_Email {
+  width: 20%;
+}
+
+#Vc_Table_Phone {
+  width: 10%;
+}
+
+
+#Vc_Table_Address {
+  width: 20%;
+}
+
+#Vc_Table_vc_Date {
+  width: 10%;
+}
+
+#Vc_Table_Join_Date {
+  width: 10%;
+}
+#Vc_Table_Action {
+  width: 10%;
+}
+
+#Vc_Table_View_Button{
+  height: 1.5rem;
+  width: 70%;
+  outline: none;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: none;
+  background-color: rgb(0, 82, 204);
+  color: white; 
+  border-radius:2px;
+}
+
+#Vc_Table_View_Button:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
 
 @media (max-width: 450px) {
   .Table_Selectot {
