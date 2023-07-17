@@ -17,8 +17,8 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/user_login" element={<UserLogin />} />
-          <Route exact path="/user_signin" element={<UserSignIn />} />
+          <Route exact path="/user/login" element={<UserLogin />} />
+          <Route exact path="/user/signin" element={<UserSignIn />} />
           <Route exact path="/admin" element={<Dashboard />} />
           <Route exact path="/admin/dashboard" element={<Dashboard />} />
           <Route exact path="/admin/tenants" element={<Tenants />} />

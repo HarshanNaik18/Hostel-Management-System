@@ -39,6 +39,7 @@
     background: rgb(55, 49, 49);
     color: orange;
     transition: 0.5s ease;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 450px) {
