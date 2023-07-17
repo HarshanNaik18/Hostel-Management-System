@@ -2,17 +2,30 @@ import React, { useState, useEffect } from "react";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 import "./RoomUpdate.css";
+import Select from "react-select";
 
 function RoomUpdate() {
   const [button, setButton] = useState(true);
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
 
-  const roomNo = 404;
-  const floorNo = 4;
-  const fees = 4000;
-  const beds = 4;
-  const occupiedBeds = 2;
-  const occupants = ["Harshan Naik", "Dheeraj T N", "", ""];
+  const [fee, setFee] = useState(4500);
+
+  var roomNo = 404;
+  var floorNo = 4;
+  var beds = 4;
+  var occupiedBeds = 2;
+  var arr = ["Harshan Naik", "Dheeraj T N", "Empty", "Empty"];
+  var options = [
+    { label: "Harshan Naik", value: "Harshan" },
+    { label: "Dheeraj T N", value: "Dheeraj" },
+    { label: "Jayatheerth", value: "Jay" },
+    { label: "Sheyas", value: "SSY" },
+    { label: "Pavan Shetty", value: "Pavan" },
+    { label: "Karthk N G", value: "Karthik" },
+    { label: "Arjun", value: "Arjun" },
+    { label: "Athti Hegde", value: "Atri" },
+    { label: "", value: "" },
+  ];
 
   useEffect(() => {
     const unSubscribe = () => {
@@ -44,33 +57,53 @@ function RoomUpdate() {
                 <span>{roomNo}</span>
               </div>
               <table className="Room_Update_Form_Table">
-                <tbody>
-                  <tr>
+                <tbody style={{ borderBottom: "1px solid lightgrey" }}>
+                  <tr style={{ borderBottom: "1px solid lightgrey" }}>
                     <td>Floor No</td>
                     <td>{floorNo}</td>
                   </tr>
-                  <tr>
+                  <tr style={{ borderBottom: "1px solid lightgrey" }}>
                     <td>Fees</td>
-                    <td>{fees}</td>
+                    <td>
+                      {"₹ "}
+                      
+                      <input
+                        type="number"
+                        value={fee}
+                        onChange={(e) => setFee(e.target.value)}
+                        style={{ border: "1px solid white" }}
+                      ></input>{" "}
+                    </td>
                   </tr>
-                  <tr>
-                    <td>Total Beds</td>
-                    <td>{beds}</td>
-                  </tr>
-                  <tr>
+                  <tr style={{ borderBottom: "1px solid lightgrey" }}>
                     <td>Occupied Beds</td>
                     <td>{occupiedBeds}</td>
                   </tr>
-                  {occupants.map((item, index) => (
+                  <tr style={{ borderBottom: "1px solid lightgrey" }}>
+                    <td>Total Beds</td>
+                    <td>{beds}</td>
+                  </tr>
+                  {arr.map((item, index) => (
                     <tr key={index}>
-                      <td> {index===0?"Occupants":""} </td>
-                      <td>
-                        <input type="text" placeholder={item} />
+                      <td> {index === 0 ? "Occupants" : ""} </td>
+                      <td style={{ padding: "0", maxHeight: "25px" }}>
+                        <Select
+                          options={options}
+                          placeholder={arr[index]}
+                          isSearchable
+                          noOptionsMessage={() => "No result found"}
+                        />
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              <div className="Room_Update_Form_Footer">
+                <button style={{ background: "#379237", color: "white" }}>
+                  Update
+                </button>
+                <button style={{ background: "red" }}>Reset</button>
+              </div>
             </form>
           </div>
         </div>
