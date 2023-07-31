@@ -3,10 +3,13 @@ import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 import "./RoomUpdate.css";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 function RoomUpdate() {
+  const navigate = useNavigate();
   const [button, setButton] = useState(true);
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
+  const [buttonDisable, setButtonDisable] = useState(false);
 
   const [fee, setFee] = useState(4500);
 
@@ -26,6 +29,20 @@ function RoomUpdate() {
     { label: "Athti Hegde", value: "Atri" },
     { label: "", value: "" },
   ];
+
+  const updateForm = (e)=>{
+    e.preventDefault();
+    setButtonDisable(true);
+    navigate("/admin/rooms_allotment/")
+    setButtonDisable(true);
+  }
+
+  const ResetForm = (e) => {
+    e.preventDefault();
+    setButtonDisable(true);
+    window.location.reload();
+    setButtonDisable(true);
+  };
 
   useEffect(() => {
     const unSubscribe = () => {
@@ -66,7 +83,6 @@ function RoomUpdate() {
                     <td>Fees</td>
                     <td>
                       {"₹ "}
-                      
                       <input
                         type="number"
                         value={fee}
@@ -99,10 +115,20 @@ function RoomUpdate() {
                 </tbody>
               </table>
               <div className="Room_Update_Form_Footer">
-                <button style={{ background: "#379237", color: "white" }}>
+                <button
+                  style={{ background: "#379237", color: "white" }}
+                  onClick={updateForm}
+                  disabled={buttonDisable}
+                >
                   Update
                 </button>
-                <button style={{ background: "red" }}>Reset</button>
+                <button
+                  style={{ background: "red" }}
+                  onClick={ResetForm}
+                  disabled={buttonDisable}
+                >
+                  Reset
+                </button>
               </div>
             </form>
           </div>

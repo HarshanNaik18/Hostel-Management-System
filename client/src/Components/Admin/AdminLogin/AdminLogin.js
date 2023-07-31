@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
 import {auth} from '../../../Firebase/Firebase'
 import Logo from "../../../Images/LOGO.png";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AdminLogin() {
   const [buttonDisable, setButtonDisable] = useState(false);
@@ -14,13 +16,16 @@ function AdminLogin() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     if (username === '' || password === ''){
+      toast.warning("Fill all the fields")
       return;
     }
     setButtonDisable(true);
-    await createUserWithEmailAndPassword(auth,username,password).then(()=>{
-      console.log(auth.currentUser);
+    await signInWithEmailAndPassword(auth,username,password).then(()=>{
+      toast.success("Logged in")
       navigate('/admin/dashboard')
-    }).catch((err)=>console.log(err))
+    }).catch(()=>{
+      toast.error("Invalid username or Password")
+    })
     setButtonDisable(false);
   };
 
@@ -42,6 +47,7 @@ function AdminLogin() {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 }
