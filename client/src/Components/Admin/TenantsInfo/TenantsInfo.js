@@ -64,6 +64,14 @@ function TenantsInfo() {
                   <span>21ise100@bnmit.in</span>
                 </div>
                 <div className="Tenant_Details_Fields">
+                  <label>Fees :</label>
+                  <span>Rs 56000</span>
+                </div>
+                <div className="Tenant_Details_Fields">
+                  <label>Due :</label>
+                  <span>Rs 20000</span>
+                </div>
+                <div className="Tenant_Details_Fields">
                   <label>Joined Date :</label>
                   <span>06-JAN-2022</span>
                 </div>

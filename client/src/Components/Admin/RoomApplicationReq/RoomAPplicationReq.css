@@ -1,0 +1,66 @@
+.Application_req_wrapper{
+    width: calc(100% -2rem);
+    height: calc(100vh - 98px);
+    padding: 0.25rem 1rem;
+}
+
+.Application_req_wrapper > table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.Application_req_wrapper > table > thead{
+    width: 100%;
+}
+
+.Application_req_wrapper > table > thead > tr{
+    padding: 0 0.5rem;
+    width: 100%;
+    background-color: #009879;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.Application_req_wrapper > table > tbody > tr {
+    width: 100%;
+    border-bottom: 1px solid #dddddd;
+  }
+  
+  .Application_req_wrapper > table > tbody > tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+  
+  .Application_req_wrapper > table > tbody > tr:nth-of-type(odd) > td {
+    border-right: 2px solid #f3f3f3;
+  }
+  
+  .Application_req_wrapper > table > tbody > tr:nth-of-type(even) > td{
+    border-right: 2px solid #fff;
+  }
+  
+  .Application_req_wrapper > table > thead > tr > td {
+    padding-left: 5px;
+    padding-right: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-left: 2px solid #f3f3f331;
+    height: 2rem;
+  }
+  .Application_req_wrapper > table > tbody > tr > td {
+    padding-left: 5px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    height: 2.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .Application_req_wrapper > table > tbody > tr:hover {
+    padding-left: 5px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+    color: #009879;
+  }

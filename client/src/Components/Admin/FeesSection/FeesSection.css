@@ -1,0 +1,111 @@
+.Fees_Field_wrapper{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    /* padding: 0 1rem; */
+    gap: 0.5rem;
+}
+
+.Fees_field_header{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 30px;
+    padding: 5px 0;
+    background:#bde6ff5d;
+    align-items: center;
+}
+
+.Fees_field_header > button{
+    height: 25px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 5px;
+    border:none;
+}
+
+.Fees_field_header > button:hover{
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 204, 7, 0.17);  
+    transform: scale(1.01);
+}
+
+.Fees_field_header > button:disabled{
+    opacity:0.8;
+}
+
+.Fees_section_Wrapper{
+    padding: 0.2rem 1rem;
+    width: calc(100%-2rem);
+}
+
+.Fees_section_Wrapper > table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.Fees_section_Wrapper > table > thead{
+    width: 100%;
+}
+
+.Fees_section_Wrapper > table > thead > tr{
+    padding: 0 0.5rem;
+    width: 100%;
+    background-color: #009879;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.Fees_section_Wrapper > table > tbody > tr {
+    width: 100%;
+    border-bottom: 1px solid #dddddd;
+  }
+  
+  .Fees_section_Wrapper > table > tbody > tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+  
+  .Fees_section_Wrapper > table > tbody > tr:nth-of-type(odd) > td {
+    border-right: 2px solid #f3f3f3;
+  }
+  
+  .Fees_section_Wrapper > table > tbody > tr:nth-of-type(even) > td{
+    border-right: 2px solid #fff;
+  }
+  
+  .Fees_section_Wrapper > table > thead > tr > td {
+    padding-left: 5px;
+    padding-right: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-left: 2px solid #f3f3f331;
+    height: 2rem;
+  }
+  .Fees_section_Wrapper > table > tbody > tr > td {
+    padding-left: 5px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    height: 2.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .Fees_section_Wrapper > table > tbody > tr:hover {
+    padding-left: 5px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    cursor: pointer;
+    color: #009879;
+  }
+
+#Reminder:hover{
+  box-shadow: 0 6px 20px rgba(0, 204, 7, 0.17);  
+  transform: scale(1.01);
+  cursor: pointer;
+}
+
+#remainder:disabled{
+  opacity: 0.95;
+}

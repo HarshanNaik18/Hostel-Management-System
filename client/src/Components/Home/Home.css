@@ -1,0 +1,113 @@
+.MainDisplayContainer{
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.register_form_container{
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.req_form{
+    padding: 20px 2rem;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid lightgrey;
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
+}
+
+.form__header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid gray;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem; 
+}
+
+.form__header > img{
+    width: 150px;
+}
+
+.form__header > label {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+.form__body{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.form_name{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form_name > label {
+    width: 100%;
+    text-align: left;
+}
+
+.form_inner_name {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form_inner_name > input{
+    width: 48%;
+}
+
+.form_address{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form_address > label{
+    text-align: left;
+}
+
+.form_inner_address{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.form_inner_address > input {
+    width: 48%;
+}
+
+.form_contacts{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.form_inner_contact {
+    width: 49%;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+
+.form_inner_contact > label{
+    text-align: left;
+}
+
+.form_inner_contact > select{
+    width: 100%;
+}

@@ -41,22 +41,22 @@ function Sidebar({ open, onClose }) {
             {!open ? <span>Tenants</span> : ""}
           </label>
         </NavLink>
-        <NavLink to="/admin/dashboard" className="sidebar_components">
+        <NavLink to="/admin/request" className="sidebar_components">
           <label onClick={onClose}>
             <i
               className="fa-solid fa-tasks"
               style={{ padding: "0 1rem", fontSize: "1.5rem" }}
             ></i>
-            {!open ? <span>Management</span> : ""}
+            {!open ? <span>Applications</span> : ""}
           </label>
         </NavLink>
-        <NavLink to="/admin/dashboard" className="sidebar_components">
+        <NavLink to="/admin/fees" className="sidebar_components">
           <label onClick={onClose}>
             <i
               className="fa-solid fa-book-open"
               style={{ padding: "0 1rem", fontSize: "1.5rem" }}
             ></i>
-            {!open ? <span>Food</span> : ""}
+            {!open ? <span>Fees</span> : ""}
           </label>
         </NavLink>
         <NavLink to="/admin/dashboard" className="sidebar_components">
