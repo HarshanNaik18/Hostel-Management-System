@@ -76,10 +76,10 @@ function FeesSection() {
                       <td>56000</td>
                       <td>3000</td>
                       <td>2600</td>
-                      <td>
+                      <td id="Reminder">
                       <button
                       disabled={buttonDisable}
-                      id="Reminder" style={{background:'gold', padding:'5px 10px', border:'none', borderRadius:'5px'}} >Reminder</button>
+                       style={{background:'gold', padding:'5px 10px', border:'none', borderRadius:'5px'}} >Reminder</button>
                       </td>
                     </tr>
                   ))}

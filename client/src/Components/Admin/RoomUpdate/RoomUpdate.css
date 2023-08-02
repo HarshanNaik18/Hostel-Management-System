@@ -91,5 +91,6 @@
   
   .Room_Update_Form_Footer > button:hover{
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);  transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);  
+    transform: scale(1.05);
   }

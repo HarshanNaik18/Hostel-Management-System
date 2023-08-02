@@ -100,12 +100,12 @@
     color: #009879;
   }
 
-#Reminder:hover{
+#Reminder > button:hover{
   box-shadow: 0 6px 20px rgba(0, 204, 7, 0.17);  
   transform: scale(1.01);
   cursor: pointer;
 }
 
-#remainder:disabled{
-  opacity: 0.95;
+#Reminder > button:disabled{
+  opacity: 0.99;
 }
