@@ -12,6 +12,7 @@ import VaccatedTanats from "./Components/Admin/Tenants/VaccatedTanats";
 import AllTenants from "./Components/Admin/Tenants/AllTenanats";
 import RoomApplicationRequest from "./Components/Admin/RoomApplicationReq/RoomApplicationRequest";
 import FeesSection from "./Components/Admin/FeesSection/FeesSection";
+import AddRooms from "./Components/Admin/RoomUpdate/AddRoom";
 // import { UserAuthContext } from "./ContextAPI/UsersAuthContext";
 function App() {
   // const {currentUser} = useContext(UserAuthContext);
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/admin/tenants/info" element={<TenantsInfo />} />
           <Route exact path="/admin/rooms_allotment" element={<RoomsAllotment />} />
           <Route exact path="/admin/rooms_allotment/update" element={<RoomUpdate />} />
+          <Route exact path="/admin/rooms_allotment/add" element={<AddRooms />} />
           <Route exact path="/admin/request" element={<RoomApplicationRequest />} />
           <Route exact path="/admin/fees" element={<FeesSection />} />
           <Route exact path="/admin/login" element={<AdminLogin />} />

@@ -334,3 +334,8 @@
 .Workers_details > table > tbody > tr > td > button:disabled {
   opacity: 0.8;
 }
+
+button:disabled{
+  opacity: 0.8;
+  cursor: not-allowed;
+}
