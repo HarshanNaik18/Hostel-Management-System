@@ -33,7 +33,7 @@ input::-webkit-inner-spin-button {
   font-weight: 600;
 }
 
-.Room_Add_Button i {
+.Room_Add_Button > i {
   border: 1px solid black;
   border-radius: 50%;
   height: 13px;

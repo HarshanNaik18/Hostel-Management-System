@@ -5,17 +5,61 @@ import "./Tanants.css";
 import { useNavigate } from "react-router-dom";
 import {
   collection,
+  doc,
+  getDoc,
   onSnapshot,
+  serverTimestamp,
+  setDoc,
 } from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
+import { toast } from "react-toastify";
 
 function ActiveTenants() {
   const [tenantsData, setTenantsData] = useState([]);
-  
+  const [filterData, setFilterData] = useState([]);
+  const [search, setSearch] = useState("");
+
   const navigate = useNavigate();
-  const handleTenantView = (index) => {
-    console.log(index);
+
+  const handleTenantView = (item) => {
+    sessionStorage.setItem("TenantInfo", JSON.stringify(item));
     navigate("/admin/tenants/info");
+  };
+
+  const handleVacate = async (item) => {
+    const id = item.id;
+    const rNo = "Room" + item.roomNo.toString();
+    const alloData = (await getDoc(doc(db, "Allotment_Table", id))).data();
+    const persData = (await getDoc(doc(db, "Users", id))).data();
+    const roomData = (await getDoc(doc(db, "Rooms", rNo))).data();
+    await setDoc(doc(db, "VacatedTenants", id), {
+      name: alloData.fname + " " + alloData.lname,
+      email: alloData.email,
+      phone: alloData.phone_no,
+      roomNo: "-",
+      floorNo: "-",
+      join: alloData.time,
+      vacated: serverTimestamp(),
+      address:
+        alloData.address +
+        " " +
+        alloData.city +
+        " " +
+        alloData.state +
+        " " +
+        alloData.pincode,
+      usn: persData.usn,
+      pic: persData.profile,
+      sem: persData.sem,
+      branch: persData.branch,
+      fees: "-",
+      paid: "-",
+      due: "-",
+    })
+      .then(() => {
+        toast.success(item.name + " is markes as vacated");
+      })
+      .catch(() => toast.error(item.name + " is not markes as vacated"));
   };
 
   useEffect(() => {
@@ -23,11 +67,10 @@ function ActiveTenants() {
     const getTenantsData = onSnapshot(q, async (snpashot) => {
       const data = [];
       snpashot.forEach((element) => {
-        data.push({...element.data(),id:element.id});
+        data.push({ ...element.data(), id: element.id });
       });
       setTenantsData(data);
-      console.log(data);
-      console.log(tenantsData);
+      setFilterData(data);
     });
     return () => {
       getTenantsData();
@@ -39,8 +82,27 @@ function ActiveTenants() {
     <div className="Tenants_Table_Container">
       <div className="Tenants_Search">
         <span>
-          <input type="text" placeholder="Search here...!!" />
-          <i className="fa-solid fa-xmark" />
+          <input
+            type="text"
+            placeholder="Search here...!!"
+            value={search}
+            onChange={(e) => {
+              const val = e.target.value;
+              const data = filterData.filter((ele) =>
+                ele.name.toLowerCase().includes(val.toLowerCase())
+              );
+              setTenantsData(data);
+              setSearch(val);
+            }}
+          />
+          <i
+            className="fa-solid fa-xmark"
+            onClick={() => {
+              const data = filterData.filter((ele) => ele.name.includes(""));
+              setTenantsData(data);
+              setSearch("");
+            }}
+          />
         </span>
       </div>
       <div className="Tenants_Search_Table">
@@ -58,7 +120,8 @@ function ActiveTenants() {
             </tr>
           </thead>
           <tbody className="Tenants_table_body">
-            {tenantsData &&
+            {tenantsData.length > 0 ? (
+              tenantsData &&
               tenantsData.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
@@ -67,18 +130,77 @@ function ActiveTenants() {
                   <td>{item.phone}</td>
                   <td>{item.roomNo}</td>
                   <td>{item.address}</td>
-                  <td>{item.join.toDate().toLocaleDateString()}</td>
+                  <td>
+                    {new Date(
+                      item.join.seconds * 1000 + item.join.nanoseconds / 1000000
+                    ).getDate() +
+                      " - " +
+                      new Date(
+                        item.join.seconds * 1000 +
+                          item.join.nanoseconds / 1000000
+                      ).getMonth() +
+                      " - " +
+                      new Date(
+                        item.join.seconds * 1000 +
+                          item.join.nanoseconds / 1000000
+                      ).getFullYear()}
+                  </td>
                   <td id="Action_Buttons">
                     <button
                       id="Table_View_Button"
-                      onClick={() => handleTenantView(index)}
+                      onClick={() => handleTenantView(item)}
                     >
                       View
                     </button>
-                    <button id="Table_Vacate_Button">Vacated</button>
+                    <button
+                      id="Table_Vacate_Button"
+                      onClick={() => handleVacate(item)}
+                    >
+                      Vacated
+                    </button>
                   </td>
                 </tr>
-              ))}
+              ))
+            ) : (
+              <>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr
+                  style={{
+                    textAlign: "center",
+                    fontSize: "18px",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  <td></td>
+                  <td></td>
+                  <td>Result</td>
+                  <td> not </td>
+                  <td>found</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </>
+            )}
           </tbody>
         </table>
       </div>

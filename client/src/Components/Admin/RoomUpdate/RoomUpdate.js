@@ -187,7 +187,6 @@ function RoomUpdate() {
       const dataItem = JSON.parse(sessionStorage.getItem("RoomDetails"));
       setRoomDetails(dataItem);
       setFlagRoomDetails(dataItem);
-      console.log(dataItem.occupants);
       const optRef = query(
         collection(db, "Allotment_Table"),
         where("flag", "==", false),

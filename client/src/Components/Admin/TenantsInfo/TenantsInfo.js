@@ -2,9 +2,35 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import "./TenantsInfo.css";
+import profileLogo from "../../../Images/profileLogo.png";
+
 function TenantsInfo() {
   const [button, setButton] = useState(true);
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
+  const [info, setInfo] = useState({
+    name: "",
+    pic: "",
+    usn: "",
+    sem: "",
+    branch: "",
+    roomNo: "",
+    floorNo: "",
+    email: "",
+    phone: "",
+    join: "-",
+    vacated: "-",
+    address: "",
+  });
+
+  useEffect(() => {
+    const getTenantInfo = () => {
+      const data = JSON.parse(sessionStorage.getItem("TenantInfo"));
+      setInfo(data);
+    };
+    return () => {
+      getTenantInfo();
+    };
+  }, []);
 
   useEffect(() => {
     const unSubscribe = () => {
@@ -32,56 +58,104 @@ function TenantsInfo() {
           <div className="tennet_info_wrapper">
             <div className="Tanent_Details_card">
               <div className="Tanent_Details_card_header">
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKVgdPnMdBjCdxkKFnwvfzcvEA6RTfYRMuEA&usqp=CAU"
-                  alt=""
-                />
-                <label>Tenant Name</label>
+                <img src={info.pic === "" ? profileLogo : info.pic} alt="" />
+                <label>{info.name}</label>
               </div>
               <div className="Tanent_Details_card_body">
                 <div className="Tenant_Details_Fields">
-                  <label>USN :</label>
-                  <span>1BG21ISXYZ</span>
-                </div>
-                <div className="Tenant_Details_Fields">
-                  <label>Sem :</label>
-                  <span>4</span>
-                </div>
-                <div className="Tenant_Details_Fields">
-                  <label>Branch :</label>
-                  <span>ISE</span>
-                </div>
-                <div className="Tenant_Details_Fields">
-                  <label>Room No :</label>
-                  <span>212</span>
-                </div>
-                <div className="Tenant_Details_Fields">
                   <label>Phone :</label>
-                  <span>9876543210</span>
+                  <span>{info.phone}</span>
                 </div>
                 <div className="Tenant_Details_Fields">
                   <label>Email :</label>
-                  <span>21ise100@bnmit.in</span>
+                  <span>{info.email}</span>
                 </div>
                 <div className="Tenant_Details_Fields">
-                  <label>Fees :</label>
-                  <span>Rs 56000</span>
+                  <label>USN :</label>
+                  <span>{info.usn}</span>
                 </div>
                 <div className="Tenant_Details_Fields">
-                  <label>Due :</label>
-                  <span>Rs 20000</span>
+                  <label>Branch :</label>
+                  <span>{info.branch}</span>
+                </div>
+                <div className="Tenant_Details_Fields">
+                  <label>Sem :</label>
+                  <span>{info.sem}</span>
+                </div>
+                <div className="Tenant_Details_Fields">
+                  <label>Room No :</label>
+                  <span>{info.roomNo}</span>
+                </div>
+                <div className="Tenant_Details_Fields">
+                  <label>Floor No :</label>
+                  <span>{info.floorNo}</span>
+                </div>
+                <div className="Tenant_Details_Fields">
+                  <label>
+                    Fees ( <i className="fa-solid fa-indian-rupee-sign" />
+                    &nbsp;) :
+                  </label>
+                  <span>{info.fees}</span>
+                </div>
+                <div className="Tenant_Details_Fields">
+                  <label>
+                    Paid ( <i className="fa-solid fa-indian-rupee-sign" />
+                    &nbsp;) :
+                  </label>
+                  <span>{info.paid}</span>
+                </div>
+                <div className="Tenant_Details_Fields">
+                  <label>
+                    Due ( <i className="fa-solid fa-indian-rupee-sign" />
+                    &nbsp;) :
+                  </label>
+                  <span>{info.due}</span>
                 </div>
                 <div className="Tenant_Details_Fields">
                   <label>Joined Date :</label>
-                  <span>06-JAN-2022</span>
+                  <span>
+                    {info.join === "-"
+                      ? "-"
+                      : new Date(
+                          info.join.seconds * 1000 +
+                            info.join.nanoseconds / 1000000
+                        ).getDate() +
+                        " - " +
+                        new Date(
+                          info.join.seconds * 1000 +
+                            info.join.nanoseconds / 1000000
+                        ).getMonth() +
+                        " - " +
+                        new Date(
+                          info.join.seconds * 1000 +
+                            info.join.nanoseconds / 1000000
+                        ).getFullYear()}
+                  </span>
                 </div>
                 <div className="Tenant_Details_Fields">
                   <label>Vaccated Date :</label>
-                  <span>-</span>
+                  <span>
+                    {info.vacated === "-"
+                      ? "-"
+                      : new Date(
+                          info.vacated.seconds * 1000 +
+                            info.vacated.nanoseconds / 1000000
+                        ).getDate() +
+                        " - " +
+                        new Date(
+                          info.vacated.seconds * 1000 +
+                            info.vacated.nanoseconds / 1000000
+                        ).getMonth() +
+                        " - " +
+                        new Date(
+                          info.vacated.seconds * 1000 +
+                            info.vacated.nanoseconds / 1000000
+                        ).getFullYear()}
+                  </span>
                 </div>
                 <div className="Tenant_Address_Fields">
                   <label>Address :</label>
-                  <span>12th Main Road, 27th Cross, Banashankari Stage II, Banashankari, Bengaluru, Karnataka 560070</span>
+                  <span>{info.address}</span>
                 </div>
               </div>
             </div>

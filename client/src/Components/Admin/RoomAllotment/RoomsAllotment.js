@@ -7,6 +7,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   query,
 } from "firebase/firestore";
@@ -150,8 +151,24 @@ function RoomsAllotment() {
                           <tbody>
                             {item.occupied > 0 ? (
                               item.occupants.map((data, ind) => (
-                                <tr key={ind}>
-                                  <td style={{ width: "15%" }}>{ind>=item.occupied?"":ind+1}</td>
+                                <tr
+                                  key={ind}
+                                  onClick={async () => {
+                                    const res = (
+                                      await getDoc(
+                                        doc(db, "ActiveTenants", data.uid)
+                                      )
+                                    ).data();
+                                    sessionStorage.setItem(
+                                      "TenantInfo",
+                                      JSON.stringify(res)
+                                    );
+                                    navigate("/admin/tenants/info");
+                                  }}
+                                >
+                                  <td style={{ width: "15%" }}>
+                                    {ind >= item.occupied ? "" : ind + 1}
+                                  </td>
                                   <td style={{ width: "70%" }}>
                                     {data.fname + " " + data.lname}
                                   </td>
@@ -160,29 +177,42 @@ function RoomsAllotment() {
                               ))
                             ) : (
                               <>
-                                <tr  >
-                                <td style={{ width: "15%" }}></td>
-                                <td
-                                  style={{ width: "70%", textAlign: "center", marginTop:'1rem' }}
-                                >
-                                </td>
-                                <td style={{ width: "15%" }}></td>
-                              </tr><tr  >
-                                <td style={{ width: "15%" }}></td>
-                                <td
-                                  style={{ width: "70%", textAlign: "center", marginTop:'1rem' }}
-                                >
-                                </td>
-                                <td style={{ width: "15%" }}></td>
-                              </tr><tr  >
-                                <td style={{ width: "15%" }}></td>
-                                <td
-                                  style={{ width: "70%", textAlign: "center", marginTop:'1rem', fontSize:'0.7rem' }}
-                                >
-                                  Room is vacant
-                                </td>
-                                <td style={{ width: "15%" }}></td>
-                              </tr>
+                                <tr>
+                                  <td style={{ width: "15%" }}></td>
+                                  <td
+                                    style={{
+                                      width: "70%",
+                                      textAlign: "center",
+                                      marginTop: "1rem",
+                                    }}
+                                  ></td>
+                                  <td style={{ width: "15%" }}></td>
+                                </tr>
+                                <tr>
+                                  <td style={{ width: "15%" }}></td>
+                                  <td
+                                    style={{
+                                      width: "70%",
+                                      textAlign: "center",
+                                      marginTop: "1rem",
+                                    }}
+                                  ></td>
+                                  <td style={{ width: "15%" }}></td>
+                                </tr>
+                                <tr>
+                                  <td style={{ width: "15%" }}></td>
+                                  <td
+                                    style={{
+                                      width: "70%",
+                                      textAlign: "center",
+                                      marginTop: "1rem",
+                                      fontSize: "0.7rem",
+                                    }}
+                                  >
+                                    Room is vacant
+                                  </td>
+                                  <td style={{ width: "15%" }}></td>
+                                </tr>
                               </>
                             )}
                           </tbody>
