@@ -67,7 +67,7 @@
   width: 100%;
   font-size: 0.9em;
   font-family: sans-serif;
-  min-width: 400px;
+  /* min-width: 400px; */
   /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); */
   text-align: left;
   border-bottom: 2px solid #009879;
@@ -79,7 +79,7 @@
 
 .Tenants_Search_Table > table > tbody {
   width: 100%;
-  height: 65vh;
+  /* height: 65vh; */
   max-height: 75vh;
   overflow-y: scroll;
 }
@@ -94,6 +94,7 @@
 }
 
 .Tenants_Search_Table > table > tbody > tr {
+  max-height: 30px;
   width: 100%;
   border-bottom: 1px solid #dddddd;
 }

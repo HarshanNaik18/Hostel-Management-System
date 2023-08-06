@@ -3,18 +3,37 @@ import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 import "./Tanants.css";
 import { useNavigate } from "react-router-dom";
+import {
+  collection,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../../../Firebase/Firebase";
 
 function ActiveTenants() {
-  const a = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30,
-  ];
+  const [tenantsData, setTenantsData] = useState([]);
   
   const navigate = useNavigate();
-  const handleTenantView = (index) =>{
+  const handleTenantView = (index) => {
     console.log(index);
-    navigate("/admin/tenants/info")
-  }
+    navigate("/admin/tenants/info");
+  };
+
+  useEffect(() => {
+    const q = collection(db, "ActiveTenants");
+    const getTenantsData = onSnapshot(q, async (snpashot) => {
+      const data = [];
+      snpashot.forEach((element) => {
+        data.push({...element.data(),id:element.id});
+      });
+      setTenantsData(data);
+      console.log(data);
+      console.log(tenantsData);
+    });
+    return () => {
+      getTenantsData();
+    };
+    //eslint-disable-next-line
+  }, []);
 
   return (
     <div className="Tenants_Table_Container">
@@ -39,20 +58,23 @@ function ActiveTenants() {
             </tr>
           </thead>
           <tbody className="Tenants_table_body">
-            {a &&
-              a.map((item, index) => (
+            {tenantsData &&
+              tenantsData.map((item, index) => (
                 <tr key={index}>
                   <td>{index + 1}</td>
-                  <td>Harshan Naik</td>
-                  <td>harshannaik18@gmail.com</td>
-                  <td>7676643480</td>
-                  <td>212</td>
-                  <td>Siddapur, Uttara Kannada, Karnataka India - 581 355</td>
-                  <td>06-JAN-2022</td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>{item.phone}</td>
+                  <td>{item.roomNo}</td>
+                  <td>{item.address}</td>
+                  <td>{item.join.toDate().toLocaleDateString()}</td>
                   <td id="Action_Buttons">
-                    <button id="Table_View_Button"
-                      onClick={()=>handleTenantView(index)}
-                    >View</button>
+                    <button
+                      id="Table_View_Button"
+                      onClick={() => handleTenantView(index)}
+                    >
+                      View
+                    </button>
                     <button id="Table_Vacate_Button">Vacated</button>
                   </td>
                 </tr>
@@ -63,7 +85,6 @@ function ActiveTenants() {
     </div>
   );
 }
-
 
 function Tenants() {
   const [button, setButton] = useState(true);
@@ -99,7 +120,7 @@ function Tenants() {
                 <label
                   className="Table_Selectot"
                   style={{
-                    borderBottom:"4px solid blue"
+                    borderBottom: "4px solid blue",
                   }}
                   onClick={() => navigate("/admin/tenants/active")}
                 >
@@ -110,7 +131,7 @@ function Tenants() {
                 <label
                   className="Table_Selectot"
                   style={{
-                    borderBottom:"none"
+                    borderBottom: "none",
                   }}
                   onClick={() => navigate("/admin/tenants/vacated")}
                 >
@@ -121,7 +142,7 @@ function Tenants() {
                 <label
                   className="Table_Selectot"
                   style={{
-                    borderBottom: "none"
+                    borderBottom: "none",
                   }}
                   onClick={() => navigate("/admin/tenants/all")}
                 >

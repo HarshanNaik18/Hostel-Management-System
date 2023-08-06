@@ -2,12 +2,59 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import "./RoomAPplicationReq.css";
+import { db } from "../../../Firebase/Firebase";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { toast } from "react-toastify";
 
 function RoomApplicationRequest() {
   const [button, setButton] = useState(true);
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
+  const [bookingData, setBookingData] = useState([]);
+  const [buttonDisable, setButtonDisable] = useState(false);
 
-  const a = [1, 2, 3, 4, 5, 6, 7, 78, 4, 9, 9, 5, 3, 6, 3, 21];
+  const handleAdd = async (item) => {
+    setButtonDisable(true);
+    const docRef = doc(db, "Allotment_Table", item.id);
+    await setDoc(docRef, item)
+      .then(() => {
+        toast.success("Application Accepted");
+      //   const docRef = doc(db, "Booking", item.id);
+      // await deleteDoc(docRef);
+      })
+      .catch(() => toast.error("Error occured"));
+    setButtonDisable(false);
+  };
+
+  const handleReject = async (item) => {
+    setButtonDisable(true);
+    const docRef = doc(db, "Booking", item.id);
+    await deleteDoc(docRef)
+      .then(() => toast.error("Application Rejected"))
+      .catch(() => toast.error("Error"));
+    setButtonDisable(false);
+  };
+
+  useEffect(() => {
+    const q = query(collection(db, "Booking"));
+    const unSubscribe = onSnapshot(q, (queySnapshot) => {
+      const data = [];
+      queySnapshot.forEach((item) => {
+        data.push({ ...item.data(), id: item.id, flag:false, time:serverTimestamp() });
+      });
+      setBookingData(data);
+    });
+    return () => {
+      unSubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const unSubscribe = () => {
@@ -46,21 +93,48 @@ function RoomApplicationRequest() {
                 </tr>
               </thead>
               <tbody>
-                {a &&
-                  a.map((item, index) => (
+                {bookingData &&
+                  bookingData.map((item, index) => (
                     <tr key={index}>
-                      <td>{index}</td>
-                      <td style={{textAlign:'left'}} >Dheeraj T N</td>
-                      <td>{item}</td>
-                      <td>9876543210</td>
-                      <td style={{textAlign:'left'}}>dtn123@gmail.com</td>
-                      <td style={{textAlign:'left'}} >
-                        12th Main Road, 27th Cross, Banashankari Stage II,
-                        Banashankari, Bengaluru, Karnataka
+                      <td>{index + 1}</td>
+                      <td style={{ textAlign: "left" }}>
+                        {item.fname + " " + item.lname}
                       </td>
-                      <td style={{display:'flex', gap:'5px',justifyContent:'space-around', alignItems:'center', borderRight:'1px solid #f3f3f3'}} >
-                        <button id="Table_View_Button" >Add</button>
-                        <button id="Table_Vacate_Button">Reject</button>
+                      <td>{item.roomType}</td>
+                      <td>{item.phone_no}</td>
+                      <td style={{ textAlign: "left" }}>{item.email}</td>
+                      <td style={{ textAlign: "left" }}>
+                        {item.address +
+                          " " +
+                          item.city +
+                          " " +
+                          item.state +
+                          " " +
+                          item.pincode}
+                      </td>
+                      <td
+                        style={{
+                          display: "flex",
+                          gap: "5px",
+                          justifyContent: "space-around",
+                          alignItems: "center",
+                          borderRight: "1px solid #f3f3f3",
+                        }}
+                      >
+                        <button
+                          id="Table_View_Button"
+                          onClick={() => handleAdd(item)}
+                          disabled={buttonDisable}
+                        >
+                          Add
+                        </button>
+                        <button
+                          id="Table_Vacate_Button"
+                          onClick={() => handleReject(item)}
+                          disabled={buttonDisable}
+                        >
+                          Reject
+                        </button>
                       </td>
                     </tr>
                   ))}

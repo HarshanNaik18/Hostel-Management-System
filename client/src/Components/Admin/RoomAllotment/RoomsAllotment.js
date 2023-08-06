@@ -3,8 +3,15 @@ import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 import "./RoomsAllotment.css";
 import { useNavigate } from "react-router-dom";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
+import { toast } from "react-toastify";
 
 function RoomsAllotment() {
   const [button, setButton] = useState(true);
@@ -13,8 +20,20 @@ function RoomsAllotment() {
 
   const [roomDetails, setRoomDetails] = useState([]);
   const [filterRoomDetails, setFilterRoomDetails] = useState([]);
+  const [SearchItem, setSearchItem] = useState("");
+  const [buttonDisable, setButtonDisable] = useState(false);
 
-  const b = [1, 2, 3, 4];
+  const deleteRoom = async (item) => {
+    setButtonDisable(true);
+    const docRef = doc(db, "Rooms", item.id);
+    await deleteDoc(docRef)
+      .then(() => toast.success(item.id + " deleted"))
+      .catch(() => {
+        toast.error("Room not deleted");
+        setButtonDisable(false);
+      });
+    setButtonDisable(false);
+  };
 
   useEffect(() => {
     const roomsRef = collection(db, "Rooms");
@@ -62,8 +81,29 @@ function RoomsAllotment() {
               <div className="Room_allotment_header">
                 <div className="Tenants_Search">
                   <span>
-                    <input type="number" placeholder="Search Room No...!!" />
-                    <i className="fa-solid fa-xmark" />
+                    <input
+                      type="number"
+                      placeholder="Search Room No...!!"
+                      value={SearchItem}
+                      onChange={(e) => {
+                        const search = e.target.value.toString();
+                        const data = roomDetails.filter((item) =>
+                          item.id.includes(search)
+                        );
+                        setFilterRoomDetails(data);
+                        setSearchItem(search);
+                      }}
+                    />
+                    <i
+                      className="fa-solid fa-xmark"
+                      onClick={() => {
+                        setSearchItem("");
+                        const data = roomDetails.filter((item) =>
+                          item.id.includes("")
+                        );
+                        setFilterRoomDetails(data);
+                      }}
+                    />
                   </span>
                 </div>
                 <div
@@ -87,7 +127,9 @@ function RoomsAllotment() {
                           </div>
                           <div className="Room_Card_Info_value">
                             <label>Beds : </label>
-                            <span>{item.occupied}/{item.beds}</span>
+                            <span>
+                              {item.occupied}/{item.beds}
+                            </span>
                           </div>
                           <div className="Room_Card_Info_value">
                             <label>Fees : </label>
@@ -106,26 +148,69 @@ function RoomsAllotment() {
                             </tr>
                           </thead>
                           <tbody>
-                            {item.occupants.map((data, index) => (
-                              <tr key={index}>
-                                <td style={{ width: "15%" }}>{index}</td>
-                                <td style={{ width: "70%" }}>Dheeraj T N</td>
-                                <td style={{ width: "15%" }}>{index}</td>
+                            {item.occupied > 0 ? (
+                              item.occupants.map((data, ind) => (
+                                <tr key={ind}>
+                                  <td style={{ width: "15%" }}>{ind>=item.occupied?"":ind+1}</td>
+                                  <td style={{ width: "70%" }}>
+                                    {data.fname + " " + data.lname}
+                                  </td>
+                                  <td style={{ width: "15%" }}>{data.sem}</td>
+                                </tr>
+                              ))
+                            ) : (
+                              <>
+                                <tr  >
+                                <td style={{ width: "15%" }}></td>
+                                <td
+                                  style={{ width: "70%", textAlign: "center", marginTop:'1rem' }}
+                                >
+                                </td>
+                                <td style={{ width: "15%" }}></td>
+                              </tr><tr  >
+                                <td style={{ width: "15%" }}></td>
+                                <td
+                                  style={{ width: "70%", textAlign: "center", marginTop:'1rem' }}
+                                >
+                                </td>
+                                <td style={{ width: "15%" }}></td>
+                              </tr><tr  >
+                                <td style={{ width: "15%" }}></td>
+                                <td
+                                  style={{ width: "70%", textAlign: "center", marginTop:'1rem', fontSize:'0.7rem' }}
+                                >
+                                  Room is vacant
+                                </td>
+                                <td style={{ width: "15%" }}></td>
                               </tr>
-                            ))}
+                              </>
+                            )}
                           </tbody>
                         </table>
                       </div>
                       <div className="Room_Card_Footer">
                         <button
                           style={{ background: "#379237", color: "white" }}
-                          onClick={() =>
-                            navigate("/admin/rooms_allotment/update")
-                          }
+                          disabled={buttonDisable}
+                          onClick={() => {
+                            setButtonDisable(true);
+                            sessionStorage.setItem(
+                              "RoomDetails",
+                              JSON.stringify(item)
+                            );
+                            navigate("/admin/rooms_allotment/update");
+                            setButtonDisable(false);
+                          }}
                         >
                           Update
                         </button>
-                        <button style={{ background: "red" }}>Delete</button>
+                        <button
+                          style={{ background: "red" }}
+                          disabled={buttonDisable}
+                          onClick={() => deleteRoom(item)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   ))}

@@ -202,28 +202,40 @@ function Dashboard() {
                       <input
                         type="text"
                         value={menu[0].Tiffin}
-                        onChange={(e) => (menu[0].Tiffin = e.target.value)}
+                        onChange={(e) => {
+                          menu[0].Tiffin = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[0].Lunch}
-                        onChange={(e) => (menu[0].Lunch = e.target.value)}
+                        onChange={(e) => {
+                          menu[0].Lunch = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[0].Snacks}
-                        onChange={(e) => (menu[0].Snacks = e.target.value)}
+                        onChange={(e) => {
+                          menu[0].Snacks = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[0].Dinner}
-                        onChange={(e) => (menu[0].Dinner = e.target.value)}
+                        onChange={(e) => {
+                          menu[0].Dinner = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                   </tr>
@@ -233,28 +245,40 @@ function Dashboard() {
                       <input
                         type="text"
                         value={menu[1].Tiffin}
-                        onChange={(e) => (menu[1].Tiffin = e.target.value)}
+                        onChange={(e) => {
+                          menu[1].Tiffin = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[1].Lunch}
-                        onChange={(e) => (menu[1].Lunch = e.target.value)}
+                        onChange={(e) => {
+                          menu[1].Lunch = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[1].Snacks}
-                        onChange={(e) => (menu[1].Snacks = e.target.value)}
+                        onChange={(e) => {
+                          menu[1].Snacks = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[1].Dinner}
-                        onChange={(e) => (menu[1].Dinner = e.target.value)}
+                        onChange={(e) => {
+                          menu[1].Dinner = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                   </tr>
@@ -264,28 +288,40 @@ function Dashboard() {
                       <input
                         type="text"
                         value={menu[2].Tiffin}
-                        onChange={(e) => (menu[2].Tiffin = e.target.value)}
+                        onChange={(e) => {
+                          menu[2].Tiffin = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[2].Lunch}
-                        onChange={(e) => (menu[2].Lunch = e.target.value)}
+                        onChange={(e) => {
+                          menu[2].Lunch = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[2].Snacks}
-                        onChange={(e) => (menu[2].Snacks = e.target.value)}
+                        onChange={(e) => {
+                          menu[2].Snacks = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[2].Dinner}
-                        onChange={(e) => (menu[2].Dinner = e.target.value)}
+                        onChange={(e) => {
+                          menu[2].Dinner = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                   </tr>
@@ -295,28 +331,40 @@ function Dashboard() {
                       <input
                         type="text"
                         value={menu[3].Tiffin}
-                        onChange={(e) => (menu[3].Tiffin = e.target.value)}
+                        onChange={(e) => {
+                          menu[3].Tiffin = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[3].Lunch}
-                        onChange={(e) => (menu[3].Lunch = e.target.value)}
+                        onChange={(e) => {
+                          menu[3].Lunch = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[3].Snacks}
-                        onChange={(e) => (menu[3].Snacks = e.target.value)}
+                        onChange={(e) => {
+                          menu[3].Snacks = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[3].Dinner}
-                        onChange={(e) => (menu[3].Dinner = e.target.value)}
+                        onChange={(e) => {
+                          menu[3].Dinner = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                   </tr>
@@ -326,28 +374,40 @@ function Dashboard() {
                       <input
                         type="text"
                         value={menu[4].Tiffin}
-                        onChange={(e) => (menu[4].Tiffin = e.target.value)}
+                        onChange={(e) => {
+                          menu[4].Tiffin = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[4].Lunch}
-                        onChange={(e) => (menu[4].Lunch = e.target.value)}
+                        onChange={(e) => {
+                          menu[4].Lunch = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[4].Snacks}
-                        onChange={(e) => (menu[4].Snacks = e.target.value)}
+                        onChange={(e) => {
+                          menu[4].Snacks = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[4].Dinner}
-                        onChange={(e) => (menu[4].Dinner = e.target.value)}
+                        onChange={(e) => {
+                          menu[4].Dinner = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                   </tr>
@@ -357,28 +417,40 @@ function Dashboard() {
                       <input
                         type="text"
                         value={menu[5].Tiffin}
-                        onChange={(e) => (menu[5].Tiffin = e.target.value)}
+                        onChange={(e) => {
+                          menu[5].Tiffin = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[5].Lunch}
-                        onChange={(e) => (menu[5].Lunch = e.target.value)}
+                        onChange={(e) => {
+                          menu[5].Lunch = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[5].Snacks}
-                        onChange={(e) => (menu[5].Snacks = e.target.value)}
+                        onChange={(e) => {
+                          menu[5].Snacks = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[5].Dinner}
-                        onChange={(e) => (menu[5].Dinner = e.target.value)}
+                        onChange={(e) => {
+                          menu[5].Dinner = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                   </tr>
@@ -388,28 +460,40 @@ function Dashboard() {
                       <input
                         type="text"
                         value={menu[6].Tiffin}
-                        onChange={(e) => (menu[6].Tiffin = e.target.value)}
+                        onChange={(e) => {
+                          menu[6].Tiffin = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[6].Lunch}
-                        onChange={(e) => (menu[6].Lunch = e.target.value)}
+                        onChange={(e) => {
+                          menu[6].Lunch = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[6].Snacks}
-                        onChange={(e) => (menu[6].Snacks = e.target.value)}
+                        onChange={(e) => {
+                          menu[6].Snacks = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
                         value={menu[6].Dinner}
-                        onChange={(e) => (menu[6].Dinner = e.target.value)}
+                        onChange={(e) => {
+                          menu[6].Dinner = e.target.value;
+                          setMenu(menu);
+                        }}
                       />
                     </td>
                   </tr>

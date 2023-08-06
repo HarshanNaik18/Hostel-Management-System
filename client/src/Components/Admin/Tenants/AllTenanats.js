@@ -2,18 +2,34 @@ import React, {useState, useEffect} from 'react'
 import AdminNavbar from '../AdminNavbar/AdminNavbar';
 import Sidebar from '../Sidebar/Sidebar';
 import { useNavigate } from 'react-router-dom';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../../../Firebase/Firebase';
 
 function AllTenantsComponent() {
-    const a = [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-      22, 23, 24, 25, 26, 27, 28, 29, 30,
-    ];
+  const [tenantsData, setTenantsData] = useState([]);
   
-    const navigate = useNavigate();
-    const handleTenantView = (index) =>{
-      console.log(index);
-      navigate("/admin/tenants/info")
-    }
+  const navigate = useNavigate();
+  const handleTenantView = (index) => {
+    console.log(index);
+    navigate("/admin/tenants/info");
+  };
+
+  useEffect(() => {
+    const q = collection(db, "AllTenants");
+    const getTenantsData = onSnapshot(q, async (snpashot) => {
+      const data = [];
+      snpashot.forEach((element) => {
+        data.push({...element.data(),id:element.id});
+      });
+      setTenantsData(data);
+      console.log(data);
+      console.log(tenantsData);
+    });
+    return () => {
+      getTenantsData();
+    };
+    //eslint-disable-next-line
+  }, []);
   
     return (
       <div className="Tenants_Table_Container">
@@ -38,16 +54,16 @@ function AllTenantsComponent() {
               </tr>
             </thead>
             <tbody className="Tenants_table_body">
-              {a &&
-                a.map((item, index) => (
+              {tenantsData &&
+                tenantsData.map((item, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>Harshan Naik</td>
-                    <td>harshannaik18@gmail.com</td>
-                    <td>7676643480</td>
-                    <td>Siddapur, Uttara Kannada, Karnataka India - 581 355</td>
-                    <td>06-JAN-2022</td>
-                    <td> {index%2===0?"26-JUL-2023":"--"} </td>
+                    <td>{item.name}</td>
+                    <td>{item.email}</td>
+                    <td>{item.phone}</td>
+                    <td>{item.address}</td>
+                    <td>{item.join.toDate().toLocaleDateString()}</td>
+                    <td> {item.vacated ==="-"?item.vacated:item.vacated.toDate().toLocaleDateString()} </td>
                     <td id="Action_Buttons">
                       <button id="Vc_Table_View_Button" onClick={handleTenantView} >View</button>
                     </td>

@@ -21,16 +21,16 @@ function AddRooms() {
   const [price, setPrice] = useState(0);
 
   const bedsArray = [0, 2, 3, 4, 5, 6];
+  const priceArray = [0, 0, 80000, 70000, 60000, 55000, 50000];
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
     e.preventDefault();
     setButtonDisable(true);
-    const beds = parseInt(sharing);
     const rn = parseInt(roomNo);
     const fn = parseInt(floorNo);
-    const fees = parseInt(price);
-    if (rn === 0 && fn === 0 && beds === 0 && fees === 0) {
+
+    if (rn === 0 && fn === 0 && sharing === 0) {
       toast.warning("Fill all the fields");
       setButtonDisable(false);
       return;
@@ -47,14 +47,8 @@ function AddRooms() {
       return;
     }
 
-    if (beds === 0) {
+    if (sharing === 0) {
       toast.warning("Select Sharing");
-      setButtonDisable(false);
-      return;
-    }
-
-    if (fees === 0) {
-      toast.warning("Fill room pricccccccce");
       setButtonDisable(false);
       return;
     }
@@ -73,14 +67,14 @@ function AddRooms() {
 
     toast.success("Room is adding");
     for (var i = 0; i < sharing; i++) {
-      occupants.push({});
+      occupants.push({ flag: false, uid: "",fname:"",lname:"" });
     }
 
     await setDoc(docRef, {
-      roomNo: fn*100+rn,
+      roomNo: fn * 100 + rn,
       floorNo: fn,
-      fees: fees,
-      beds: beds,
+      fees: price,
+      beds: sharing,
       occupied: 0,
       occupants: occupants,
     })
@@ -155,7 +149,13 @@ function AddRooms() {
               </div>
               <div className="Add_Room_Container">
                 <label>Sharing :</label>
-                <select onChange={(e) => setSharing(e.target.value)}>
+                <select
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value);
+                    setSharing(val);
+                    setPrice(priceArray[val]);
+                  }}
+                >
                   <option value={bedsArray[0]}>Select Here</option>
                   <option value={bedsArray[1]}>2</option>
                   <option value={bedsArray[2]}>3</option>
@@ -169,15 +169,12 @@ function AddRooms() {
                   Fees ( &nbsp; <i className="fa-solid fa-indian-rupee-sign" />
                   &nbsp;) :
                 </label>
-                <input
-                  type="number"
-                  onChange={(e) => setPrice(e.target.value)}
-                />
+                <label style={{ width: "180px" }}>{price}</label>
               </div>
               <button onClick={handleClick} disabled={buttonDisable}>
                 Add
               </button>
-              {/* <ToastContainer /> */}
+              <ToastContainer />
             </div>
           </div>
         </div>

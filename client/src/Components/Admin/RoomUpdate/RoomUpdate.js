@@ -4,6 +4,18 @@ import Sidebar from "../Sidebar/Sidebar";
 import "./RoomUpdate.css";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  setDoc,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { db } from "../../../Firebase/Firebase";
+import { toast } from "react-toastify";
 
 function RoomUpdate() {
   const navigate = useNavigate();
@@ -11,31 +23,118 @@ function RoomUpdate() {
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
   const [buttonDisable, setButtonDisable] = useState(false);
 
-  const [fee, setFee] = useState(4500);
+  const [roomDetails, setRoomDetails] = useState({
+    beds: 0,
+    fees: 0,
+    floorNo: 0,
+    occupants: [{ fname: "", lname: "", uid: "", sem: "" , username:"" }],
+    occupied: 0,
+    roomNo: 0,
+  });
+  const [flagRoomDetails, setFlagRoomDetails] = useState({
+    beds: 0,
+    fees: 0,
+    floorNo: 0,
+    occupants: [{ fname: "", lname: "", uid: "", sem: "" }],
+    occupied: 0,
+    roomNo: 0,
+  });
 
-  var roomNo = 404;
-  var floorNo = 4;
-  var beds = 4;
-  var occupiedBeds = 2;
-  var arr = ["Harshan Naik", "Dheeraj T N", "Empty", "Empty"];
-  var options = [
-    { label: "Harshan Naik", value: "Harshan" },
-    { label: "Dheeraj T N", value: "Dheeraj" },
-    { label: "Jayatheerth", value: "Jay" },
-    { label: "Sheyas", value: "SSY" },
-    { label: "Pavan Shetty", value: "Pavan" },
-    { label: "Karthk N G", value: "Karthik" },
-    { label: "Arjun", value: "Arjun" },
-    { label: "Athti Hegde", value: "Atri" },
-    { label: "", value: "" },
-  ];
+  const [usersTable, setUsersTable] = useState(["", "", "", "", "", ""]);
 
-  const updateForm = (e)=>{
+  const [options, setOptions] = useState([{ value: "", label: "" }]);
+  const [tempOptions, setTempOption] = useState([
+    { value: "", label: "" },
+    { value: "", label: "" },
+    { value: "", label: "" },
+    { value: "", label: "" },
+    { value: "", label: "" },
+    { value: "", label: "" },
+  ]);
+
+  const updateForm = async (e) => {
     e.preventDefault();
+    toast.success("Updateding " + roomDetails.id + " details");
     setButtonDisable(true);
-    navigate("/admin/rooms_allotment/")
+    var count = 0;
+    roomDetails.occupants.forEach(async (ele) => {
+      if (ele.flag === true) {
+        count++;
+        const alloData = (
+          await getDoc(doc(db, "Allotment_Table", ele.uid))
+        ).data();
+        const persData = (await getDoc(doc(db, "Users", ele.uid))).data();
+        await setDoc(doc(db, "ActiveTenants", ele.uid), {
+          name: alloData.fname + " " + alloData.lname,
+          email: alloData.email,
+          phone: alloData.phone_no,
+          roomNo: roomDetails.roomNo,
+          floorNo: roomDetails.floorNo,
+          join: alloData.time,
+          vacated: "-",
+          address:
+            alloData.address +
+            " " +
+            alloData.city +
+            " " +
+            alloData.state +
+            " " +
+            alloData.pincode,
+          usn: persData.usn,
+          pic: persData.profile,
+          sem: persData.sem,
+          branch: persData.branch,
+          fees: roomDetails.fees,
+          paid: 0,
+          due: roomDetails.fees,
+        });
+        await setDoc(doc(db, "AllTenants", ele.uid), {
+          name: alloData.fname + " " + alloData.lname,
+          email: alloData.email,
+          phone: alloData.phone_no,
+          roomNo: roomDetails.roomNo,
+          floorNo: roomDetails.floorNo,
+          join: alloData.time,
+          vacated: "-",
+          address:
+            alloData.address +
+            " " +
+            alloData.city +
+            " " +
+            alloData.state +
+            " " +
+            alloData.pincode,
+          usn: persData.usn,
+          pic: persData.profile,
+          sem: persData.sem,
+          branch: persData.branch,
+          fees: roomDetails.fees,
+          paid: 0,
+          due: roomDetails.fees,
+        });
+        await setDoc(doc(db, "Payments", ele.uid), {
+          name: alloData.fname + " " + alloData.lname,
+          email: alloData.email,
+          phone: alloData.phone_no,
+          fees: roomDetails.fees,
+          paid: 0,
+          flag:true,
+          due: roomDetails.fees,
+        });
+        await updateDoc(doc(db, "Allotment_Table", ele.uid), {
+          flag: true,
+        });
+      }
+    });
+    roomDetails.occupied = count;
+    await updateDoc(doc(db, "Rooms", roomDetails.id), {
+      occupants: roomDetails.occupants,
+      occupied: roomDetails.occupied,
+    });
+    toast.success("Updateding " + roomDetails.id + " details");
+    navigate("/admin/rooms_allotment/");
     setButtonDisable(true);
-  }
+  };
 
   const ResetForm = (e) => {
     e.preventDefault();
@@ -43,6 +142,75 @@ function RoomUpdate() {
     window.location.reload();
     setButtonDisable(true);
   };
+
+  const changeUser = async (option, index) => {
+    const val = option.value;
+    const docRef = doc(db, "Users", val);
+    const userData = (await getDoc(docRef)).data();
+    const occData = [];
+    roomDetails.occupants.forEach((item, ind) => {
+      if (ind === index) {
+        occData.push({
+          ...userData,
+          flag: true,
+          uid: val,
+          fname: userData.username,
+          lname: "",
+        });
+      } else {
+        occData.push(item);
+      }
+    });
+    roomDetails.occupants = occData;
+    usersTable[index] = val;
+    const data = [];
+    for (var i = 0; i < tempOptions.length; i++) {
+      var check = true;
+      for (var j = 0; j < 6; j++) {
+        if (usersTable[j] === tempOptions[i].value) {
+          check = false;
+          break;
+        }
+      }
+      if (check) {
+        data.push(tempOptions[i]);
+      }
+    }
+    setUsersTable(usersTable);
+    setOptions(data);
+    setRoomDetails(roomDetails);
+    
+  };
+
+  useEffect(() => {
+    const getRoomDetails = () => {
+      const dataItem = JSON.parse(sessionStorage.getItem("RoomDetails"));
+      setRoomDetails(dataItem);
+      setFlagRoomDetails(dataItem);
+      console.log(dataItem.occupants);
+      const optRef = query(
+        collection(db, "Allotment_Table"),
+        where("flag", "==", false),
+        where("roomType", "==", dataItem.beds)
+      );
+      const data = [];
+      onSnapshot(optRef, (querySnapshot) => {
+        querySnapshot.forEach((element) => {
+          data.push({
+            value: element.id,
+            label: element.data().fname + " " + element.data().lname,
+          });
+        });
+        setOptions(data);
+        setTempOption(data);
+        
+      });
+    };
+    return () => {
+      getRoomDetails();
+    };
+    //eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     const unSubscribe = () => {
@@ -71,43 +239,50 @@ function RoomUpdate() {
             <form className="Room_Update_Form">
               <div className="Room_Update_Form_Header">
                 <label>Room No:</label>
-                <span>{roomNo}</span>
+                <span>{roomDetails.roomNo}</span>
               </div>
               <table className="Room_Update_Form_Table">
                 <tbody style={{ borderBottom: "1px solid lightgrey" }}>
                   <tr style={{ borderBottom: "1px solid lightgrey" }}>
                     <td>Floor No</td>
-                    <td>{floorNo}</td>
+                    <td>{roomDetails.floorNo}</td>
                   </tr>
                   <tr style={{ borderBottom: "1px solid lightgrey" }}>
-                    <td>Fees</td>
                     <td>
-                      {"₹ "}
-                      <input
-                        type="number"
-                        value={fee}
-                        onChange={(e) => setFee(e.target.value)}
-                        style={{ border: "1px solid white" }}
-                      ></input>{" "}
+                      Fees&nbsp;({" "}
+                      <i className="fa-solid fa-indian-rupee-sign" />
+                      &nbsp;)
                     </td>
+                    <td>{roomDetails.fees}</td>
                   </tr>
                   <tr style={{ borderBottom: "1px solid lightgrey" }}>
                     <td>Occupied Beds</td>
-                    <td>{occupiedBeds}</td>
+                    <td>{roomDetails.occupied}</td>
                   </tr>
                   <tr style={{ borderBottom: "1px solid lightgrey" }}>
                     <td>Total Beds</td>
-                    <td>{beds}</td>
+                    <td>{roomDetails.beds}</td>
                   </tr>
-                  {arr.map((item, index) => (
+                  {roomDetails.occupants.map((item, index) => (
                     <tr key={index}>
                       <td> {index === 0 ? "Occupants" : ""} </td>
                       <td style={{ padding: "0", maxHeight: "25px" }}>
                         <Select
                           options={options}
-                          placeholder={arr[index]}
+                          defaultValue={
+                            index === 0 || index < roomDetails.occupied
+                              ? {
+                                  value: item.uid,
+                                  label:
+                                    item.username +
+                                    " " +
+                                    item.lname,
+                                }
+                              : null
+                          }
                           isSearchable
                           noOptionsMessage={() => "No result found"}
+                          onChange={(option) => changeUser(option, index)}
                         />
                       </td>
                     </tr>
