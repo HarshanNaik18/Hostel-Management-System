@@ -10,6 +10,7 @@ import {
   getDoc,
   onSnapshot,
   query,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
 import { toast } from "react-toastify";
@@ -26,6 +27,11 @@ function RoomsAllotment() {
 
   const deleteRoom = async (item) => {
     setButtonDisable(true);
+    await item.occupants.forEach(async (ele) => {
+      await updateDoc(doc(db, "Allotment_Table", ele.uid), {
+        flag: false,
+      });
+    });
     const docRef = doc(db, "Rooms", item.id);
     await deleteDoc(docRef)
       .then(() => toast.success(item.id + " deleted"))

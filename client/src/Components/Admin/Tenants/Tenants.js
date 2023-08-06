@@ -5,11 +5,13 @@ import "./Tanants.css";
 import { useNavigate } from "react-router-dom";
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   onSnapshot,
   serverTimestamp,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
 import { toast } from "react-toastify";
@@ -32,6 +34,13 @@ function ActiveTenants() {
     const alloData = (await getDoc(doc(db, "Allotment_Table", id))).data();
     const persData = (await getDoc(doc(db, "Users", id))).data();
     const roomData = (await getDoc(doc(db, "Rooms", rNo))).data();
+    const tntatl = roomData.occupants;
+    const temp = tntatl.filter((ele) => ele.uid !== id);
+    const len = temp.length;
+    for (var i = temp.length; i < tntatl.length; i++) {
+      temp.push({ flag: false, uid: "", fname: "", lname: "" });
+    }
+
     await setDoc(doc(db, "VacatedTenants", id), {
       name: alloData.fname + " " + alloData.lname,
       email: alloData.email,
@@ -56,7 +65,21 @@ function ActiveTenants() {
       paid: "-",
       due: "-",
     })
-      .then(() => {
+      .then(async () => {
+        await updateDoc(doc(db, "AllTenants", id), {
+          fees: "-",
+          paid: "-",
+          due: "-",
+          roomNo: "-",
+          floorNo: "-",
+        });
+        await updateDoc(doc(db, "Rooms", rNo), {
+          occupied: temp.length - len,
+          occupants: temp,
+        });
+        await deleteDoc(doc(db, "ActiveTenants", id));
+        await deleteDoc(doc(db, "Allotment_Table", id));
+        await deleteDoc(doc(db, "Payments", id));
         toast.success(item.name + " is markes as vacated");
       })
       .catch(() => toast.error(item.name + " is not markes as vacated"));
