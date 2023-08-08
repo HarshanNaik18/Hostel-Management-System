@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import Sidebar from "../Sidebar/Sidebar";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  collection,
+} from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
 import { toast } from "react-toastify";
 function Dashboard() {
@@ -10,69 +18,94 @@ function Dashboard() {
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
   const [staffData, setStaffData] = useState([]);
   const [buttonDisable, setButtonDisable] = useState(false);
-  const [menu, setMenu] = useState([
-    {
-      Day: "",
-      Tiffin: "",
-      Lunch: "",
-      Snacks: "",
-      Dinner: "",
-    },
-    {
-      Day: "",
-      Tiffin: "",
-      Lunch: "",
-      Snacks: "",
-      Dinner: "",
-    },
-    {
-      Day: "",
-      Tiffin: "",
-      Lunch: "",
-      Snacks: "",
-      Dinner: "",
-    },
-    {
-      Day: "",
-      Tiffin: "",
-      Lunch: "",
-      Snacks: "",
-      Dinner: "",
-    },
-    {
-      Day: "",
-      Tiffin: "",
-      Lunch: "",
-      Snacks: "",
-      Dinner: "",
-    },
-    {
-      Day: "",
-      Tiffin: "",
-      Lunch: "",
-      Snacks: "",
-      Dinner: "",
-    },
-    {
-      Day: "",
-      Tiffin: "",
-      Lunch: "",
-      Snacks: "",
-      Dinner: "",
-    },
-  ]);
-  const [tempMenu, setTempMenu] = useState([]);
+  const [tenants, setTenats] = useState(0);
+  const [totalRooms, setTotalRooms] = useState(0);
+  const [availableRooms, setAvailableRooms] = useState(0);
+
+  const [sundayTfn, setSundayTfn] = useState("");
+  const [sundayLunch, setSundayLunch] = useState("");
+  const [sundaySnacks, setSundaySnacks] = useState("");
+  const [sundayDinner, setSundayDinner] = useState("");
+
+  const [mondayTfn, setmondayTfn] = useState("");
+  const [mondayLunch, setmondayLunch] = useState("");
+  const [mondaySnacks, setmondaySnacks] = useState("");
+  const [mondayDinner, setmondayDinner] = useState("");
+
+  const [tuesdaydayTfn, settuesdaydayTfn] = useState("");
+  const [tuesdaydayLunch, settuesdaydayLunch] = useState("");
+  const [tuesdaydaySnacks, settuesdaydaySnacks] = useState("");
+  const [tuesdaydayDinner, settuesdaydayDinner] = useState("");
+
+  const [wednsdayTfn, setwednsdayTfn] = useState("");
+  const [wednsdayLunch, setwednsdayLunch] = useState("");
+  const [wednsdaySnacks, setwednsdaySnacks] = useState("");
+  const [wednesdayDinner, setwednsdaydayDinner] = useState("");
+
+  const [tuesdayTfn, settuesdayTfn] = useState("");
+  const [tuesdayLunch, settuesdayLunch] = useState("");
+  const [tuesdaySnacks, settuesdaySnacks] = useState("");
+  const [tuesdayDinner, settuesdayDinner] = useState("");
+
+  const [fridayTfn, setfridayTfn] = useState("");
+  const [fridayLunch, setfridayLunch] = useState("");
+  const [fridaySnacks, setfridaySnacks] = useState("");
+  const [fridayDinner, setfridayDinner] = useState("");
+
+  const [saturdayTfn, setsaturdayTfn] = useState("");
+  const [saturdayLunch, setsaturdayLunch] = useState("");
+  const [saturdaySnacks, setsaturdaySnacks] = useState("");
+  const [saturdayDinner, setsaturdayDinner] = useState("");
+
   const menuRef = doc(db, "DiningMenu", "Menu");
 
   const handleMenuUpdate = async (e) => {
     e.preventDefault();
-    if (menu === tempMenu) {
-      toast.warning("Menu is same");
-      return;
-    }
     setButtonDisable(true);
     await setDoc(menuRef, {
-      Menu: menu,
+      Menu: [{
+        Tiffin: sundayTfn,
+        Lunch: sundayLunch,
+        Snacks: sundaySnacks,
+        Dinner: sundayDinner,
+      },
+      {
+        Tiffin: mondayTfn,
+        Lunch: mondayLunch,
+        Snacks: mondaySnacks,
+        Dinner: mondayDinner,
+      },
+      {
+        Tiffin: tuesdaydayTfn,
+        Lunch: tuesdaydayLunch,
+        Snacks: tuesdaydaySnacks,
+        Dinner: tuesdaydayDinner,
+      },
+      {
+        Tiffin: wednsdayTfn,
+        Lunch: wednsdayLunch,
+        Snacks: wednsdaySnacks,
+        Dinner: wednesdayDinner,
+      },
+      {
+        Tiffin: tuesdayTfn,
+        Lunch: tuesdayLunch,
+        Snacks: tuesdaySnacks,
+        Dinner: tuesdayDinner,
+      },
+      {
+        Tiffin: fridayTfn,
+        Lunch: fridayLunch,
+        Snacks: fridaySnacks,
+        Dinner: fridayDinner,
+      },
+      {
+        Tiffin: saturdayTfn,
+        Lunch: saturdayLunch,
+        Snacks: saturdaySnacks,
+        Dinner: saturdayDinner,
+      },
+    ],
       Time: serverTimestamp(),
     })
       .then(() => {
@@ -87,18 +120,51 @@ function Dashboard() {
   const handleClear = async (e) => {
     e.preventDefault();
     setButtonDisable(true);
-    const doc = await getDoc(menuRef);
-    setMenu(doc.data().Menu);
-    setTempMenu(doc.data().Menu);
+    window.location.reload();
     toast.warning("Changes has been cleared");
     setButtonDisable(false);
   };
 
   useEffect(() => {
     const unSubscribe = async () => {
-      const doc = await getDoc(menuRef);
-      setMenu(doc.data().Menu);
-      setTempMenu(doc.data().Menu);
+      const docR = (await getDoc(menuRef));
+      const doc = docR.data().Menu;
+
+      console.log(doc);
+      setSundayTfn(doc[0].Tiffin);
+      setSundayLunch(doc[0].Lunch);
+      setSundaySnacks(doc[0].Snacks);
+      setSundayDinner(doc[0].Dinner);
+
+      setmondayTfn(doc[1].Tiffin);
+      setmondayLunch(doc[1].Lunch);
+      setmondaySnacks(doc[1].Snacks);
+      setmondayDinner(doc[1].Dinner);
+
+      settuesdaydayTfn(doc[2].Tiffin);
+      settuesdaydayLunch(doc[2].Lunch);
+      settuesdaydaySnacks(doc[2].Snacks);
+      settuesdaydayDinner(doc[2].Dinner);
+
+      setwednsdayTfn(doc[3].Tiffin);
+      setwednsdayLunch(doc[3].Lunch);
+      setwednsdaySnacks(doc[3].Snacks);
+      setwednsdaydayDinner(doc[3].Dinner);
+
+      settuesdayTfn(doc[4].Tiffin);
+      settuesdayLunch(doc[4].Lunch);
+      settuesdaySnacks(doc[4].Snacks);
+      settuesdayDinner(doc[4].Dinner);
+
+      setfridayTfn(doc[5].Tiffin);
+      setfridayLunch(doc[5].Lunch);
+      setfridaySnacks(doc[5].Snacks);
+      setfridayDinner(doc[5].Dinner);
+
+      setsaturdayTfn(doc[6].Tiffin);
+      setsaturdayLunch(doc[6].Lunch);
+      setsaturdaySnacks(doc[6].Snacks);
+      setsaturdayDinner(doc[6].Dinner);
     };
     return () => {
       unSubscribe();
@@ -137,6 +203,38 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
+    const q1 = query(collection(db, "ActiveTenants"));
+    const q2 = query(collection(db, "Rooms"));
+    const getTentsCount = onSnapshot(q1, (snapshot) => {
+      const data = [];
+      snapshot.forEach((ele) => {
+        data.push(ele.data());
+      });
+      setTenats(data.length);
+    });
+    const getRoomsCount = onSnapshot(q2, (snapshot) => {
+      const data = [];
+      snapshot.forEach((ele) => {
+        data.push(ele.data());
+      });
+      setTotalRooms(data.length);
+    });
+    const getAvailableRoomsCount = onSnapshot(q2, (snapshot) => {
+      const data = [];
+      snapshot.forEach((ele) => {
+        if (ele.data().occupied !== ele.data().beds) data.push(ele.data());
+      });
+      setAvailableRooms(data.length);
+    });
+    return () => {
+      getTentsCount();
+      getRoomsCount();
+      getAvailableRoomsCount();
+    };
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     const unSubscribe = () => {
       setDisplayWidth(window.innerWidth);
     };
@@ -164,17 +262,17 @@ function Dashboard() {
             <div className="row1-container">
               <div className="box box-down cyan">
                 <h2 id="h2">Total Tenants</h2>
-                <label>120</label>
+                <label>{tenants}</label>
               </div>
 
               <div className="box red">
                 <h2 id="h2">Total Rooms</h2>
-                <label>40</label>
+                <label>{totalRooms}</label>
               </div>
 
               <div className="box box-down blue">
                 <h2 id="h2">Available Rooms</h2>
-                <label>15</label>
+                <label>{availableRooms}</label>
               </div>
             </div>
             <div className="row2-container">
@@ -201,41 +299,29 @@ function Dashboard() {
                     <td>
                       <input
                         type="text"
-                        value={menu[0].Tiffin}
-                        onChange={(e) => {
-                          menu[0].Tiffin = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={sundayTfn}
+                        onChange={(e) => setSundayTfn(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[0].Lunch}
-                        onChange={(e) => {
-                          menu[0].Lunch = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={sundayLunch}
+                        onChange={(e) => setSundayLunch(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[0].Snacks}
-                        onChange={(e) => {
-                          menu[0].Snacks = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={sundaySnacks}
+                        onChange={(e) => setSundaySnacks(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[0].Dinner}
-                        onChange={(e) => {
-                          menu[0].Dinner = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={sundayDinner}
+                        onChange={(e) => setSundayDinner(e.target.value)}
                       />
                     </td>
                   </tr>
@@ -244,41 +330,29 @@ function Dashboard() {
                     <td>
                       <input
                         type="text"
-                        value={menu[1].Tiffin}
-                        onChange={(e) => {
-                          menu[1].Tiffin = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={mondayTfn}
+                        onChange={(e) => setmondayTfn(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[1].Lunch}
-                        onChange={(e) => {
-                          menu[1].Lunch = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={mondayLunch}
+                        onChange={(e) => setmondayLunch(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[1].Snacks}
-                        onChange={(e) => {
-                          menu[1].Snacks = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={mondaySnacks}
+                        onChange={(e) => setmondaySnacks(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[1].Dinner}
-                        onChange={(e) => {
-                          menu[1].Dinner = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={mondayDinner}
+                        onChange={(e) => setmondayDinner(e.target.value)}
                       />
                     </td>
                   </tr>
@@ -287,41 +361,29 @@ function Dashboard() {
                     <td>
                       <input
                         type="text"
-                        value={menu[2].Tiffin}
-                        onChange={(e) => {
-                          menu[2].Tiffin = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdaydayTfn}
+                        onChange={(e) => settuesdaydayTfn(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[2].Lunch}
-                        onChange={(e) => {
-                          menu[2].Lunch = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdaydayLunch}
+                        onChange={(e) => settuesdaydayLunch(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[2].Snacks}
-                        onChange={(e) => {
-                          menu[2].Snacks = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdaydaySnacks}
+                        onChange={(e) => settuesdaydaySnacks(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[2].Dinner}
-                        onChange={(e) => {
-                          menu[2].Dinner = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdaydayDinner}
+                        onChange={(e) => settuesdaydayDinner(e.target.value)}
                       />
                     </td>
                   </tr>
@@ -330,41 +392,29 @@ function Dashboard() {
                     <td>
                       <input
                         type="text"
-                        value={menu[3].Tiffin}
-                        onChange={(e) => {
-                          menu[3].Tiffin = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={wednsdayTfn}
+                        onChange={(e) => setwednsdayTfn(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[3].Lunch}
-                        onChange={(e) => {
-                          menu[3].Lunch = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={wednsdayLunch}
+                        onChange={(e) => setwednsdayLunch(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[3].Snacks}
-                        onChange={(e) => {
-                          menu[3].Snacks = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={wednsdaySnacks}
+                        onChange={(e) => setwednsdaySnacks(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[3].Dinner}
-                        onChange={(e) => {
-                          menu[3].Dinner = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={wednesdayDinner}
+                        onChange={(e) => setwednsdaydayDinner(e.target.value)}
                       />
                     </td>
                   </tr>
@@ -373,41 +423,29 @@ function Dashboard() {
                     <td>
                       <input
                         type="text"
-                        value={menu[4].Tiffin}
-                        onChange={(e) => {
-                          menu[4].Tiffin = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdayTfn}
+                        onChange={(e) => settuesdayTfn(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[4].Lunch}
-                        onChange={(e) => {
-                          menu[4].Lunch = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdayLunch}
+                        onChange={(e) => settuesdayLunch(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[4].Snacks}
-                        onChange={(e) => {
-                          menu[4].Snacks = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdaySnacks}
+                        onChange={(e) => settuesdaySnacks(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[4].Dinner}
-                        onChange={(e) => {
-                          menu[4].Dinner = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={tuesdayDinner}
+                        onChange={(e) => settuesdayDinner(e.target.value)}
                       />
                     </td>
                   </tr>
@@ -416,41 +454,29 @@ function Dashboard() {
                     <td>
                       <input
                         type="text"
-                        value={menu[5].Tiffin}
-                        onChange={(e) => {
-                          menu[5].Tiffin = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={fridayTfn}
+                        onChange={(e) => setfridayTfn(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[5].Lunch}
-                        onChange={(e) => {
-                          menu[5].Lunch = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={fridayLunch}
+                        onChange={(e) => setfridayLunch(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[5].Snacks}
-                        onChange={(e) => {
-                          menu[5].Snacks = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={fridaySnacks}
+                        onChange={(e) => setfridaySnacks(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[5].Dinner}
-                        onChange={(e) => {
-                          menu[5].Dinner = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={fridayDinner}
+                        onChange={(e) => setfridayDinner(e.target.value)}
                       />
                     </td>
                   </tr>
@@ -459,41 +485,29 @@ function Dashboard() {
                     <td>
                       <input
                         type="text"
-                        value={menu[6].Tiffin}
-                        onChange={(e) => {
-                          menu[6].Tiffin = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={saturdayTfn}
+                        onChange={(e) => setsaturdayTfn(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[6].Lunch}
-                        onChange={(e) => {
-                          menu[6].Lunch = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={saturdayLunch}
+                        onChange={(e) => setsaturdayLunch(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[6].Snacks}
-                        onChange={(e) => {
-                          menu[6].Snacks = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={saturdaySnacks}
+                        onChange={(e) => setsaturdaySnacks(e.target.value)}
                       />
                     </td>
                     <td>
                       <input
                         type="text"
-                        value={menu[6].Dinner}
-                        onChange={(e) => {
-                          menu[6].Dinner = e.target.value;
-                          setMenu(menu);
-                        }}
+                        value={saturdayDinner}
+                        onChange={(e) => setsaturdayDinner(e.target.value)}
                       />
                     </td>
                   </tr>
