@@ -10,9 +10,143 @@ import {
   onSnapshot,
   query,
   collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  orderBy,
 } from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
 import { toast } from "react-toastify";
+
+function StaffTD({ item, key, index }) {
+  const [staffName, setStaffName] = useState(item.Name);
+  const [staffPhone, setStaffPhone] = useState(item.phone);
+  const [staffEmail, setStaffEmail] = useState(item.email);
+  const [staffDesignation, setStaffDesignation] = useState(item.designation);
+  const [flag, setFlag] = useState(true);
+
+  const updateStaff = async (e) => {
+    e.preventDefault();
+    const mailformat =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!staffName || staffPhone === 0 || !staffEmail || !staffDesignation) {
+      toast.warning("Fill all the fields");
+      return;
+    }
+    if (staffPhone < 6000000000 || staffPhone > 9999999999) {
+      toast.warning("Invalid phone number");
+      return;
+    }
+    if (!staffEmail.match(mailformat)) {
+      toast.warning("Invalid email");
+      return;
+    }
+    const docRef = doc(db, "Staffs", item.id);
+    await updateDoc(docRef, {
+      Name: staffName,
+      phone: staffPhone,
+      email: staffEmail,
+      designation: staffDesignation,
+    })
+      .then(() => toast.success("Updated"))
+      .catch(() => toast.error("Error"));
+    setFlag(true);
+  };
+
+  const removeStaff = async () => {
+    await deleteDoc(doc(db, "Staffs", item.id))
+      .then(() => toast.success("Staff data deleted"))
+      .catch(() => toast.error("Error"));
+  };
+
+  const cancelUpdate = () => {
+    setStaffName(item.Name);
+    setStaffPhone(item.phone);
+    setStaffEmail(item.email);
+    setStaffDesignation(item.designation);
+    setFlag(true);
+  };
+  return flag ? (
+    <tr key={key}>
+      <td style={{ textAlign: "center", width: "10%" }}>{index + 1}</td>
+      <td style={{ width: "15%" }}>{item.Name}</td>
+      <td style={{ width: "15%" }}>{item.phone}</td>
+      <td style={{ width: "20%" }}>{item.email}</td>
+      <td style={{ textAlign: "center", width: "20%" }}>{item.designation}</td>
+      <td
+        style={{
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          height: "40px",
+          minWidth: "200px",
+          paddingLeft: "0",
+        }}
+      >
+        <button onClick={() => setFlag(false)} style={{ background: "purple" }}>
+          Update
+        </button>
+        <button onClick={removeStaff} style={{ background: "Red" }}>
+          Remove
+        </button>
+      </td>
+    </tr>
+  ) : (
+    <tr key={key}>
+      <td style={{ textAlign: "center", width: "10%" }}>{index + 1}</td>
+      <td style={{ width: "15%" }}>
+        {" "}
+        <input
+          type="text"
+          value={staffName}
+          onChange={(e) => setStaffName(e.target.value)}
+        />{" "}
+      </td>
+      <td style={{ width: "15%" }}>
+        <input
+          type="number"
+          value={staffPhone}
+          onChange={(e) => setStaffPhone(parseInt(e.target.value))}
+        />
+      </td>
+      <td style={{ width: "20%" }}>
+        <input
+          type="text"
+          value={staffEmail}
+          onChange={(e) => setStaffEmail(e.target.value)}
+        />
+      </td>
+      <td style={{ textAlign: "center", width: "20%" }}>
+        <input
+          type="text"
+          value={staffDesignation}
+          style={{ textAlign: "center" }}
+          onChange={(e) => setStaffDesignation(e.target.value)}
+        />
+      </td>
+      <td
+        style={{
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          height: "40px",
+          minWidth: "200px",
+          paddingLeft: "0",
+        }}
+      >
+        <button onClick={updateStaff} style={{ background: "green" }}>
+          OK
+        </button>
+        <button onClick={cancelUpdate} style={{ background: "orange" }}>
+          Cancel
+        </button>
+      </td>
+    </tr>
+  );
+}
+
 function Dashboard() {
   const [button, setButton] = useState(true);
   const [displayWidth, setDisplayWidth] = useState(window.innerWidth);
@@ -57,55 +191,61 @@ function Dashboard() {
   const [saturdaySnacks, setsaturdaySnacks] = useState("");
   const [saturdayDinner, setsaturdayDinner] = useState("");
 
+  const [staffName, setStaffName] = useState("");
+  const [staffPhone, setStaffPhone] = useState(0);
+  const [staffEmail, setStaffEmail] = useState("");
+  const [staffDesignation, setStaffDesignation] = useState("");
+
   const menuRef = doc(db, "DiningMenu", "Menu");
 
   const handleMenuUpdate = async (e) => {
     e.preventDefault();
     setButtonDisable(true);
     await setDoc(menuRef, {
-      Menu: [{
-        Tiffin: sundayTfn,
-        Lunch: sundayLunch,
-        Snacks: sundaySnacks,
-        Dinner: sundayDinner,
-      },
-      {
-        Tiffin: mondayTfn,
-        Lunch: mondayLunch,
-        Snacks: mondaySnacks,
-        Dinner: mondayDinner,
-      },
-      {
-        Tiffin: tuesdaydayTfn,
-        Lunch: tuesdaydayLunch,
-        Snacks: tuesdaydaySnacks,
-        Dinner: tuesdaydayDinner,
-      },
-      {
-        Tiffin: wednsdayTfn,
-        Lunch: wednsdayLunch,
-        Snacks: wednsdaySnacks,
-        Dinner: wednesdayDinner,
-      },
-      {
-        Tiffin: tuesdayTfn,
-        Lunch: tuesdayLunch,
-        Snacks: tuesdaySnacks,
-        Dinner: tuesdayDinner,
-      },
-      {
-        Tiffin: fridayTfn,
-        Lunch: fridayLunch,
-        Snacks: fridaySnacks,
-        Dinner: fridayDinner,
-      },
-      {
-        Tiffin: saturdayTfn,
-        Lunch: saturdayLunch,
-        Snacks: saturdaySnacks,
-        Dinner: saturdayDinner,
-      },
-    ],
+      Menu: [
+        {
+          Tiffin: sundayTfn,
+          Lunch: sundayLunch,
+          Snacks: sundaySnacks,
+          Dinner: sundayDinner,
+        },
+        {
+          Tiffin: mondayTfn,
+          Lunch: mondayLunch,
+          Snacks: mondaySnacks,
+          Dinner: mondayDinner,
+        },
+        {
+          Tiffin: tuesdaydayTfn,
+          Lunch: tuesdaydayLunch,
+          Snacks: tuesdaydaySnacks,
+          Dinner: tuesdaydayDinner,
+        },
+        {
+          Tiffin: wednsdayTfn,
+          Lunch: wednsdayLunch,
+          Snacks: wednsdaySnacks,
+          Dinner: wednesdayDinner,
+        },
+        {
+          Tiffin: tuesdayTfn,
+          Lunch: tuesdayLunch,
+          Snacks: tuesdaySnacks,
+          Dinner: tuesdayDinner,
+        },
+        {
+          Tiffin: fridayTfn,
+          Lunch: fridayLunch,
+          Snacks: fridaySnacks,
+          Dinner: fridayDinner,
+        },
+        {
+          Tiffin: saturdayTfn,
+          Lunch: saturdayLunch,
+          Snacks: saturdaySnacks,
+          Dinner: saturdayDinner,
+        },
+      ],
       Time: serverTimestamp(),
     })
       .then(() => {
@@ -127,10 +267,9 @@ function Dashboard() {
 
   useEffect(() => {
     const unSubscribe = async () => {
-      const docR = (await getDoc(menuRef));
+      const docR = await getDoc(menuRef);
       const doc = docR.data().Menu;
 
-      console.log(doc);
       setSundayTfn(doc[0].Tiffin);
       setSundayLunch(doc[0].Lunch);
       setSundaySnacks(doc[0].Snacks);
@@ -172,39 +311,57 @@ function Dashboard() {
     //eslint-disable-next-line
   }, []);
 
-  const a = [
-    { data: "1", flag: false },
-    { data: "2", flag: false },
-    { data: "3", flag: false },
-    { data: "4", flag: false },
-    { data: "5", flag: false },
-    { data: "6", flag: false },
-    { data: "7", flag: false },
-    { data: "8", flag: false },
-    { data: "9", flag: false },
-    { data: "10", flag: false },
-    { data: "11", flag: false },
-  ];
-  const flag = [];
+  const IncTable = (e) => {
+    const data = [];
+    staffData.forEach((ele) => {
+      data.push(ele);
+    });
+    data.push({ data: "", flag: false });
+    setStaffData(data);
+  };
 
-  const staffUpdate = (index) => {};
+  const HandleAddStaff = async (e) => {
+    e.preventDefault();
+    const mailformat =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!staffName || staffPhone === 0 || !staffEmail || !staffDesignation) {
+      toast.warning("Fill all the fields");
+      return;
+    }
+    if (staffPhone < 6000000000 || staffPhone > 9999999999) {
+      toast.warning("Invalid phone number");
+      return;
+    }
+    if (!staffEmail.match(mailformat)) {
+      toast.warning("Invalid email");
+      return;
+    }
 
-  useEffect(() => {
-    const unSubscribe = () => {
-      for (var i = 0; i < a.length; i++) {
-        flag.push(false);
+    await addDoc(collection(db, "Staffs"), {
+      Name: staffName,
+      phone: staffPhone,
+      email: staffEmail,
+      designation: staffDesignation,
+      time:serverTimestamp()
+    })
+      .then(() => toast.success("Staff added"))
+      .catch(() => toast.error("Error"));
+  };
+
+  const cancelStaffAdd = () => {
+    const data = [];
+    staffData.forEach((ele, index) => {
+      if (index !== staffData.length - 1) {
+        data.push(ele);
       }
-      setStaffData(a);
-    };
-    return () => {
-      unSubscribe();
-    };
-    //eslint-disable-next-line
-  }, []);
+    });
+    setStaffData(data);
+  };
 
   useEffect(() => {
     const q1 = query(collection(db, "ActiveTenants"));
     const q2 = query(collection(db, "Rooms"));
+    const q3 = query(collection(db, "Staffs"),orderBy("time"));
     const getTentsCount = onSnapshot(q1, (snapshot) => {
       const data = [];
       snapshot.forEach((ele) => {
@@ -226,10 +383,19 @@ function Dashboard() {
       });
       setAvailableRooms(data.length);
     });
+
+    const getStaffData = onSnapshot(q3, (snapshot) => {
+      const data = [];
+      snapshot.forEach((ele) => {
+        data.push({ ...ele.data(), id: ele.id, flag: true });
+      });
+      setStaffData(data);
+    });
     return () => {
       getTentsCount();
       getRoomsCount();
       getAvailableRoomsCount();
+      getStaffData();
     };
     //eslint-disable-next-line
   }, []);
@@ -278,7 +444,7 @@ function Dashboard() {
             <div className="row2-container">
               <div className="box orange">
                 <h2 id="h2">Total Staffs</h2>
-                <label>10</label>
+                <label>{staffData.length}</label>
               </div>
             </div>
             <div className="MenuTable">
@@ -550,35 +716,65 @@ function Dashboard() {
                 <tbody>
                   {staffData &&
                     staffData.map((item, index) =>
-                      !flag[index] ? (
-                        <tr key={index}>
-                          <td style={{ textAlign: "center" }}>{item.data}</td>
-                          <td>Dheeraj T N</td>
-                          <td>9876543210</td>
-                          <td>abcd123@gmail.com</td>
-                          <td style={{ textAlign: "center" }}>Warden</td>
-                          <td style={{ textAlign: "center" }}>
-                            <button
-                              style={{ background: "green" }}
-                              onClick={() => {
-                                flag[index] = false;
-                              }}
-                              disabled={buttonDisable}
-                            >
-                              Ok
-                            </button>
-                          </td>
-                        </tr>
+                      item.flag ? (
+                        <StaffTD item={item} key={index} index={index} />
                       ) : (
                         <tr key={index}>
-                          <td style={{ textAlign: "center" }}>{item.data}</td>
-                          <td>Dheeraj T N</td>
-                          <td>9876543210</td>
-                          <td>abcd123@gmail.com</td>
-                          <td style={{ textAlign: "center" }}>Warden</td>
-                          <td style={{ textAlign: "center" }}>
-                            <button onClick={() => staffUpdate(index)}>
-                              Update
+                          <td style={{ textAlign: "center", width: "10%" }}>
+                            {index + 1}
+                          </td>
+                          <td style={{ width: "15%" }}>
+                            {" "}
+                            <input
+                              type="text"
+                              onChange={(e) => setStaffName(e.target.value)}
+                            />{" "}
+                          </td>
+                          <td style={{ width: "15%" }}>
+                            <input
+                              type="number"
+                              onChange={(e) =>
+                                setStaffPhone(parseInt(e.target.value))
+                              }
+                            />
+                          </td>
+                          <td style={{ width: "20%" }}>
+                            <input
+                              type="text"
+                              onChange={(e) => setStaffEmail(e.target.value)}
+                            />
+                          </td>
+                          <td style={{ textAlign: "center", width: "20%" }}>
+                            <input
+                              type="text"
+                              style={{textAlign:'center'}}
+                              onChange={(e) =>
+                                setStaffDesignation(e.target.value)
+                              }
+                            />
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "center",
+                              display: "flex",
+                              justifyContent: "space-evenly",
+                              alignItems: "center",
+                              height: "40px",
+                              minWidth: "200px",
+                              paddingLeft: "0",
+                            }}
+                          >
+                            <button
+                              onClick={HandleAddStaff}
+                              style={{ background: "green" }}
+                            >
+                              OK
+                            </button>
+                            <button
+                              onClick={cancelStaffAdd}
+                              style={{ background: "orange" }}
+                            >
+                              Cancel
                             </button>
                           </td>
                         </tr>
@@ -586,6 +782,15 @@ function Dashboard() {
                     )}
                 </tbody>
               </table>
+              <div style={{ padding: "1.5rem" }}>
+                <button
+                  className="Staff_ADD_button"
+                  onClick={IncTable}
+                  disabled={buttonDisable}
+                >
+                  Add Staff
+                </button>
+              </div>
             </div>
           </div>
         </div>

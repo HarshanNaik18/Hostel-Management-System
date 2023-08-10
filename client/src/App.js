@@ -14,14 +14,29 @@ import RoomApplicationRequest from "./Components/Admin/RoomApplicationReq/RoomAp
 import FeesSection from "./Components/Admin/FeesSection/FeesSection";
 import AddRooms from "./Components/Admin/RoomUpdate/AddRoom";
 import { ToastContainer, toast } from "react-toastify";
+import Enquiries from "./Components/Admin/Enquiries/Enquiries";
 // import { UserAuthContext } from "./ContextAPI/UsersAuthContext";
 function App() {
   // const {currentUser} = useContext(UserAuthContext);
 
   // const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-  useEffect(() => {
+  const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const onPageLoad = () => {
+      setIsLoading(true);
+    };
+
+    if (document.readyState === "complete") {
+      onPageLoad();
+    } else {
+      window.addEventListener("load", onPageLoad);
+      return () => window.removeEventListener("load", onPageLoad);
+    }
+  }, []);
+
+  useEffect(() => {
     // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const onlineHandler = () => {
@@ -44,7 +59,13 @@ function App() {
       window.removeEventListener("offline", offlineHandler);
     };
   }, []);
-  return (
+
+
+  return !isLoading ? (
+    <div className="page-loader">
+      <div className="loader"></div>
+    </div>
+  ) : (
     <div className="App">
       <Router>
         <Routes>
@@ -79,6 +100,11 @@ function App() {
             exact
             path="/admin/request"
             element={<RoomApplicationRequest />}
+          />
+          <Route
+            exact
+            path="/admin/enquiries"
+            element={<Enquiries />}
           />
           <Route exact path="/admin/fees" element={<FeesSection />} />
           <Route exact path="/admin/login" element={<AdminLogin />} />

@@ -59,7 +59,7 @@ function Sidebar({ open, onClose }) {
             {!open ? <span>Fees</span> : ""}
           </label>
         </NavLink>
-        <NavLink to="/admin/dashboard" className="sidebar_components">
+        <NavLink to="/admin/enquiries" className="sidebar_components">
           <label onClick={onClose}>
             <i
               className="fa-solid fa-envelopes-bulk"

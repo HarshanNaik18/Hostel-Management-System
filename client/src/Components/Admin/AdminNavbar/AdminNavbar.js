@@ -16,7 +16,6 @@ function AdminNavbar() {
         toast.warning("Logged out")
         navigate("/admin/login");
       })
-      .catch((e) => console.log(e));
   };
 
   return (
