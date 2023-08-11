@@ -13,7 +13,7 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../../Firebase/Firebase";
+import { auth, db } from "../../../Firebase/Firebase";
 import { toast } from "react-toastify";
 
 function ActiveTenants() {
@@ -80,6 +80,9 @@ function ActiveTenants() {
         await deleteDoc(doc(db, "ActiveTenants", id));
         await deleteDoc(doc(db, "Allotment_Table", id));
         await deleteDoc(doc(db, "Payments", id));
+        await auth.updateUser(id, {
+          disabled: true
+      });
         toast.success(item.name + " is markes as vacated");
       })
       .catch(() => toast.error(item.name + " is not markes as vacated"));

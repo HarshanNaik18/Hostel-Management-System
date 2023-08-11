@@ -11,11 +11,10 @@ function AdminNavbar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await signOut(auth)
-      .then(() => {
-        toast.warning("Logged out")
-        navigate("/admin/login");
-      })
+    await signOut(auth).then(() => {
+      toast.warning("Logged out");
+      navigate("/admin/login");
+    });
   };
 
   return (

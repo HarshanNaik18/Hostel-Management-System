@@ -4,14 +4,40 @@ import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import "./Enquiry.css";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
+import { toast } from "react-toastify";
 
-function EnquiryCard({item}) {
+function EnquiryCard({ item }) {
   const [clicked, setClicked] = useState(false);
   const [reply, setreply] = useState("");
+  const [buttonDisable, setButtonDisable] = useState(false);
 
-  const sendReply = (e) => {
+  const sendReply = async (e) => {
     e.preventDefault();
-    console.log(reply);
+    if (reply === "") {
+      toast.warning("Field should not be empty");
+      return;
+    }
+    setButtonDisable(true);
+    const config = {
+      Host: "smtp.elasticemail.com",
+      Username: "iplinnovative685@gmail.com",
+      Password: "D55DADE0B03DFB8ADD0AAC4A10504070590F",
+      Port: 2525,
+      To: `${item.email}`,
+      From: "iplinnovative685@gmail.com",
+      Subject: "Reminder: Hostel Fee Payment Deadline",
+      Body: `Dear ${reply}
+      
+      Warm regards,\n\n
+      
+      Team Hostel Management`,
+    };
+    if (window.Email) {
+      await window.Email.send(config)
+        .then(() => toast.success("Email sent to " + item.email))
+        .catch(() => toast.error("Email sent not to " + item.email));
+    }
+    setButtonDisable(false);
   };
 
   return (
@@ -26,9 +52,7 @@ function EnquiryCard({item}) {
       </div>
       <div className="enquiry_component">
         <span>Message :&nbsp;</span>
-        <label>
-         {item.message}
-        </label>
+        <label>{item.message}</label>
       </div>
 
       <button onClick={() => setClicked(!clicked)}>
@@ -41,11 +65,20 @@ function EnquiryCard({item}) {
             placeholder="Reply to user..."
             onChange={(e) => setreply(e.target.value)}
           />
-          <i
-            className="fa fa-paper-plane"
-            aria-hidden="true"
+          <button
+            style={{
+              width: "50px",
+              height: "50px",
+              border: "none",
+              outline: "none",
+              background: "inherit",
+              color: "green",
+            }}
             onClick={sendReply}
-          ></i>
+            disabled={buttonDisable}
+          >
+            <i className="fa fa-paper-plane" aria-hidden="true"></i>
+          </button>
         </div>
       ) : (
         ""
@@ -98,9 +131,10 @@ function Enquiries() {
             <label>Enquiries</label>
           </div>
           <div className="enquiry">
-            {enqueries && enqueries.map((item, index) => (
-              <EnquiryCard item = {item} key = {index} />
-            ))}
+            {enqueries &&
+              enqueries.map((item, index) => (
+                <EnquiryCard item={item} key={index} />
+              ))}
           </div>
         </div>
       </div>

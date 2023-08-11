@@ -27,7 +27,7 @@ function RoomUpdate() {
     beds: 0,
     fees: 0,
     floorNo: 0,
-    occupants: [{ fname: "", lname: "", uid: "", sem: "" , username:"" }],
+    occupants: [{ fname: "", lname: "", uid: "", sem: "", username: "" }],
     occupied: 0,
     roomNo: 0,
   });
@@ -118,7 +118,7 @@ function RoomUpdate() {
           phone: alloData.phone_no,
           fees: roomDetails.fees,
           paid: 0,
-          flag:true,
+          flag: true,
           due: roomDetails.fees,
         });
         await updateDoc(doc(db, "Allotment_Table", ele.uid), {
@@ -179,7 +179,6 @@ function RoomUpdate() {
     setUsersTable(usersTable);
     setOptions(data);
     setRoomDetails(roomDetails);
-    
   };
 
   useEffect(() => {
@@ -202,7 +201,6 @@ function RoomUpdate() {
         });
         setOptions(data);
         setTempOption(data);
-        
       });
     };
     return () => {
@@ -269,13 +267,10 @@ function RoomUpdate() {
                         <Select
                           options={options}
                           defaultValue={
-                            index === 0 || index < roomDetails.occupied
+                            index < roomDetails.occupied
                               ? {
                                   value: item.uid,
-                                  label:
-                                    item.username +
-                                    " " +
-                                    item.lname,
+                                  label: item.username + " " + item.lname,
                                 }
                               : null
                           }

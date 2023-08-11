@@ -261,7 +261,7 @@
   opacity: 0.8;
 }
 
-.Workers_details{
+.Workers_details {
   width: 100%;
   background: rgba(205, 143, 222, 0.44);
   padding: 0.5rem 0;
@@ -278,7 +278,7 @@
   padding: 0.1rem 1rem;
 }
 
-.Workers_details > table{
+.Workers_details > table {
   width: 80%;
   border-collapse: collapse;
   text-align: left;
@@ -318,7 +318,7 @@
   text-align: center;
 }
 
-.Workers_details > table > tbody > tr > td>input {
+.Workers_details > table > tbody > tr > td > input {
   width: 100%;
   border-top: none;
   border-left: none;
@@ -330,15 +330,14 @@
   text-align: center;
 }
 
-.Workers_details > table > tbody > tr > td>input:focus {
+.Workers_details > table > tbody > tr > td > input:focus {
   width: 100%;
   border-bottom: 1px solid green;
   background: inherit;
   outline: none;
 }
 
-
-.Workers_details > table > tbody > tr > td > button{
+.Workers_details > table > tbody > tr > td > button {
   background: orangered;
   padding: 4px 10px;
   border: none;
@@ -360,7 +359,7 @@
   opacity: 0.8;
 }
 
-button:disabled{
+button:disabled {
   opacity: 0.8;
   cursor: not-allowed;
 }

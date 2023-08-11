@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import "./FeesSection.css";
-import { collection, doc, onSnapshot, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
 import { toast } from "react-toastify";
 function FeesSection() {
@@ -15,30 +21,85 @@ function FeesSection() {
   const handleFeesUpdate = async () => {
     setButtonDisable(true);
     paymentData.forEach(async (element) => {
+      const config = {
+        Host: "smtp.elasticemail.com",
+        Username: "iplinnovative685@gmail.com",
+        Password: "D55DADE0B03DFB8ADD0AAC4A10504070590F",
+        Port: 2525,
+        To: `${element.email}`,
+        From: "iplinnovative685@gmail.com",
+        Subject: "Reminder: Hostel Fee Payment Deadline",
+        Body: `Dear ${element.name},\n\n
+        
+        I hope this email finds you in good health and high spirits. We appreciate your presence as residents of our college hostel and hope you are enjoying a fulfilling academic experience.\n\n
+        
+        As we approach the midpoint of the semester, we would like to remind you about the upcoming deadline for the payment of your hostel fees. The timely payment of fees is essential to ensure the smooth functioning of the hostel facilities and services that we provide to you. These fees contribute towards maintenance, utilities, security, and various amenities that make your stay comfortable and conducive to your studies.\n\n
+        
+        The deadline for the payment of the hostel fees for this semester is [Payment Deadline Date]. We kindly request all residents to submit their fees before this date to avoid any inconvenience or late payment charges. Your prompt cooperation will help us streamline our operations and continue providing you with a secure and nurturing environment.\n\n
+        
+        Here's how you can make your payment:\n\n
+        
+        1. **Online Payment:** You can log in to your student portal at http://localhost:3000/ and navigate to the hostel fee payment section. Follow the instructions to complete the payment using your preferred mode, whether it's credit/debit card or online banking.\n\n
+        
+        In case you are facing any challenges related to the payment process or require any clarification regarding the fee structure, please do not hesitate to contact the college accounts department at. They will be more than willing to assist you with your queries.\n\n
+        
+        We understand the financial commitments that come with your education, and we are here to support you in any way possible. If you are facing genuine difficulties in making the payment on time, we encourage you to reach out to us at [Your Contact Information] so that we can discuss possible solutions and offer assistance.\n\n
+        
+        Thank you for your attention to this matter. Your cooperation is vital in ensuring the continued success of our hostel community. We wish you all the best in your academic pursuits and look forward to your continued presence in our hostel.\n\n
+        
+        Warm regards,\n\n
+        
+        Team Hostel Management`,
+      };
+      setButtonDisable(true);
+      if (window.Email) {
+        await window.Email.send(config)
+          .then(() => {})
+          .catch(() => {});
+      }
       await updateDoc(doc(db, "Payments", element.id), {
         flag: true,
-      }).catch(()=>{
+        paid: 0,
+        due: element.fees,
+      }).catch(() => {
         toast.error("error");
         setButtonDisable(false);
-      })
+      });
+      await updateDoc(doc(db, "ActiveTenants", element.id), {
+        flag: true,
+        paid: 0,
+        due: element.fees,
+      }).catch(() => {
+        toast.error("error");
+        setButtonDisable(false);
+      });
+      await updateDoc(doc(db, "AllTenants", element.id), {
+        flag: true,
+        paid: 0,
+        due: element.fees,
+      }).catch(() => {
+        toast.error("error");
+        setButtonDisable(false);
+      });
+      await deleteDoc(doc(db, "PaymentsSuccess", element.id));
     });
     toast.success("Payment status updated");
     setButtonDisable(false);
   };
 
-  const handleDismis = async()=>{
+  const handleDismis = async () => {
     setButtonDisable(true);
     paymentData.forEach(async (element) => {
       await updateDoc(doc(db, "Payments", element.id), {
         flag: false,
-      }).catch(()=>{
+      }).catch(() => {
         toast.error("error");
         setButtonDisable(false);
-      })
+      });
     });
     toast.success("Payment dismissed");
     setButtonDisable(false);
-  }
+  };
 
   const handleRemainder = async (item) => {
     const config = {
@@ -72,7 +133,6 @@ function FeesSection() {
       Team Hostel Management`,
     };
     setButtonDisable(true);
-    toast.success("sending");
     if (window.Email) {
       await window.Email.send(config)
         .then(() => toast.success("Remainder sent to " + item.name))

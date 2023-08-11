@@ -58,9 +58,18 @@
   padding: 0 10px;
   border-radius: 10px;
 }
-.reply__input > i {
+.reply__input >button:hover {
   cursor: pointer;
+  color: #f76700;
 }
+
+.reply__input >button > i:hover {
+  cursor: pointer;
+  color: #f76700;
+  transition: scale(1.05)ease-out;
+}
+
+
 .reply__input > textarea {
   border: none;
   background-color: whitesmoke;
