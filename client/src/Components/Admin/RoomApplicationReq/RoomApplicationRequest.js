@@ -24,10 +24,10 @@ function RoomApplicationRequest() {
     setButtonDisable(true);
     const docRef = doc(db, "Allotment_Table", item.id);
     await setDoc(docRef, item)
-      .then(() => {
+      .then(async () => {
         toast.success("Application Accepted");
-      //   const docRef = doc(db, "Booking", item.id);
-      // await deleteDoc(docRef);
+        const docRef = doc(db, "Booking", item.id);
+        await deleteDoc(docRef);
       })
       .catch(() => toast.error("Error occured"));
     setButtonDisable(false);
@@ -47,7 +47,12 @@ function RoomApplicationRequest() {
     const unSubscribe = onSnapshot(q, (queySnapshot) => {
       const data = [];
       queySnapshot.forEach((item) => {
-        data.push({ ...item.data(), id: item.id, flag:false, time:serverTimestamp() });
+        data.push({
+          ...item.data(),
+          id: item.id,
+          flag: false,
+          time: serverTimestamp(),
+        });
       });
       setBookingData(data);
     });

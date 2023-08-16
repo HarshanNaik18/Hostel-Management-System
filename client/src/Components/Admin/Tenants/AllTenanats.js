@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { useNavigate } from "react-router-dom";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
 
 function AllTenantsComponent() {
@@ -17,7 +17,7 @@ function AllTenantsComponent() {
   };
 
   useEffect(() => {
-    const q = collection(db, "AllTenants");
+    const q = query( collection(db, "AllTenants"), orderBy('name'));
     const getTenantsData = onSnapshot(q, async (snpashot) => {
       const data = [];
       snpashot.forEach((element) => {

@@ -18,33 +18,33 @@ import Enquiries from "./Components/Admin/Enquiries/Enquiries";
 function App() {
   // const {currentUser} = useContext(UserAuthContext);
 
-  // const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(navigator.onLine);
 
-  useEffect(() => {
-    const onPageLoad = () => {
-      setIsLoading(true);
-    };
+  // useEffect(() => {
+  //   const onPageLoad = () => {
+  //     setIsOnline(true);
+  //   };
 
-    if (document.readyState === "complete") {
-      onPageLoad();
-    } else {
-      window.addEventListener("load", onPageLoad);
-      return () => window.removeEventListener("load", onPageLoad);
-    }
-  }, []);
+  //   if (document.readyState === "complete") {
+  //     onPageLoad();
+  //   } else {
+  //     window.addEventListener("load", onPageLoad);
+  //     return () => window.removeEventListener("load", onPageLoad);
+  //   }
+  // }, []);
 
   useEffect(() => {
     // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const onlineHandler = () => {
-      // setIsOnline(true);
+      setIsOnline(true);
       toast.success("Back to online");
     };
 
     const offlineHandler = async () => {
-      // setIsOnline(false);
+      setIsOnline(false);
       toast.error("You are in offline");
       // await delay(3000);
       // offlineHandler();
@@ -59,8 +59,7 @@ function App() {
     };
   }, []);
 
-
-  return !isLoading ? (
+  return !isOnline ? (
     <div className="page-loader">
       <div className="loader"></div>
     </div>
@@ -100,11 +99,7 @@ function App() {
             path="/admin/request"
             element={<RoomApplicationRequest />}
           />
-          <Route
-            exact
-            path="/admin/enquiries"
-            element={<Enquiries />}
-          />
+          <Route exact path="/admin/enquiries" element={<Enquiries />} />
           <Route exact path="/admin/fees" element={<FeesSection />} />
           <Route exact path="/admin/login" element={<AdminLogin />} />
         </Routes>

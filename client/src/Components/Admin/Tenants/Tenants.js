@@ -9,6 +9,8 @@ import {
   doc,
   getDoc,
   onSnapshot,
+  orderBy,
+  query,
   serverTimestamp,
   setDoc,
   updateDoc,
@@ -72,6 +74,7 @@ function ActiveTenants() {
           due: "-",
           roomNo: "-",
           floorNo: "-",
+          vacated: serverTimestamp(),
         });
         await updateDoc(doc(db, "Rooms", rNo), {
           occupied: temp.length - len,
@@ -89,7 +92,7 @@ function ActiveTenants() {
   };
 
   useEffect(() => {
-    const q = collection(db, "ActiveTenants");
+    const q = query( collection(db, "ActiveTenants"), orderBy('name'));
     const getTenantsData = onSnapshot(q, async (snpashot) => {
       const data = [];
       snpashot.forEach((element) => {

@@ -35,8 +35,10 @@ function EnquiryCard({ item }) {
     if (window.Email) {
       await window.Email.send(config)
         .then(() => toast.success("Email sent to " + item.email))
-        .catch(() => toast.error("Email sent not to " + item.email));
+        .catch(() => toast.error("Email not sent to " + item.email));
     }
+    setClicked(false);
+    setreply('');
     setButtonDisable(false);
   };
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNavbar from "../AdminNavbar/AdminNavbar";
 import Sidebar from "../Sidebar/Sidebar";
 import { useNavigate } from "react-router-dom";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { db } from "../../../Firebase/Firebase";
 
 function VacatedTenantsss() {
@@ -17,7 +17,7 @@ function VacatedTenantsss() {
   };
 
   useEffect(() => {
-    const q = collection(db, "VacatedTenants");
+    const q = query( collection(db, "VacatedTenants"), orderBy('name'));
     const getTenantsData = onSnapshot(q, async (snpashot) => {
       const data = [];
       snpashot.forEach((element) => {
@@ -39,6 +39,7 @@ function VacatedTenantsss() {
           <input
             type="text"
             placeholder="Search here...!!"
+            value={search}
             onChange={(e) => {
               const val = e.target.value;
               const data = filterData.filter((ele) =>
